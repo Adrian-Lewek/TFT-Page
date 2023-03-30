@@ -2,17 +2,27 @@ import { useState } from 'react';
 import {FaSearch} from 'react-icons/fa'
 import '../style/HomePage.scss';
 import Select, { SingleValue } from 'react-select'
+import { useDispatch, useSelector } from 'react-redux';
+type State = {
+  name: string,
+  summonerID: string;
+}
 function HomePage () {
   const [searchUsername, setSearchUsername] = useState("");
-  const [region, setRegion] = useState<string | undefined>("");
+  const [region, setRegion] = useState<string | undefined>("eun1");
   const optionRegions = [
     {value: "eun1", label: "EUNE"},
     {value: "euw1", label: "EUW"},
-    {value: "na", label: "NA"},
+    {value: "na1", label: "NA"},
     {value: "kr", label: "KR"},
   ]
 
-  
+  const dispatch = useDispatch();
+  const searching = useSelector((state: State) => state);
+  function handleSummonerInputSubmit(){
+    dispatch({type: 'CHANGE_USER', payload: searchUsername})
+    dispatch({type: 'CHANGE_summonerID', payload: region})
+  }
   return (
     <div className="HomePage">
       <div className="HomePage_mainBanner">
@@ -33,11 +43,12 @@ function HomePage () {
             <input type="text" name="searchUsername" placeholder="Summoner name..." value={searchUsername} onChange={(e) => setSearchUsername(e.target.value)} />
           </div>
           <div className="HomePage_mainBanner_searchContainer_item">
-            <button ><FaSearch/></button>
+            <button onClick={()=> handleSummonerInputSubmit()}><FaSearch/></button>
           </div>
         </div>
       </div>
-      <div className="HomePage_laderboardContainer"></div>
+      <div className="HomePage_laderboardContainer">
+      </div>
     </div>
   )
 }

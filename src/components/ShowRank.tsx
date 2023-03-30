@@ -1,12 +1,12 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import API_KEY from '../API_KEY.json'
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 interface iProps {
-  summonerId: string | undefined;
   type: string,
-  name: string | undefined
 }
-interface DataSummonerName {
+interface DataSummonerRank {
   freshBlood: boolean,
   hotStreak: boolean,
   inactive: boolean,
@@ -20,50 +20,90 @@ interface DataSummonerName {
   tier: string,
   veteran: boolean,
   wins: number,
-
 }
-const ShowRank: FunctionComponent<iProps> = ({ summonerId, type, name }) => {
-  const [Data, setData] = useState<DataSummonerName>()
+interface DataSummonerName {
+  accountId: string,
+  id: string,
+  name:string,
+  profileIconId: number,
+  puuid: string,
+  revisionDate: number,
+  summonerLevel: number
+}
+type State = {
+  user: string,
+  summonerID: string;
+  region: string;
+}
+const ShowRank: FunctionComponent<iProps> = ({ type }) => {
+  const [DataRank, setDataRank] = useState<DataSummonerRank>()
+  const [DataUser, setDataUser] = useState<DataSummonerName>()
   const [Loading, setLoading] = useState(true)
-  const [Error, setError] = useState(false)
-  const query = ["https://eun1.api.riotgames.com/tft/league/v1/entries/by-summoner/", "https://eun1.api.riotgames.com/lol/league/v4/entries/by-summoner/"]
+  const [error, setError] = useState(false)
+  const query = [".api.riotgames.com/tft/league/v1/entries/by-summoner/", ".api.riotgames.com/lol/league/v4/entries/by-summoner/"]
+  const {profile} = useParams();
+  const userInfo = useSelector((state: State) => state);
+  const dispatch = useDispatch();
+  
   useEffect(() => {
-    fetch((type === "solo" ? query[0] : query[1] )  + summonerId + '?api_key=' + API_KEY.REACT_APP_API_KEY)
+    fetch('https://'+ userInfo.region + '.api.riotgames.com/tft/summoner/v1/summoners/by-name/' + profile + '?api_key=' + API_KEY.REACT_APP_API_KEY)
     .then(response => {
       if (response.ok) return response.json();
       throw response;
     })
     .then(data => {
-      setData(data.filter((item: { queueType: string; }) => item.queueType === "RANKED_TFT_DOUBLE_UP" || item.queueType === "RANKED_TFT")[0]);
+      dispatch({type:"CHANGE_SUMMONER_ID", payload: data.id})
+      setDataUser(data);
     })
     .catch(error => {
-      console.log("Error fetching data: ", error);
-      setError(error);
+      console.log("Error fetching data: ");
+      setError(true);
     })
-    .finally(() => {
-      setLoading(false);
-    })
+    // eslint-disable-next-line
   }, [])
-  console.log(Data)
+
+  useEffect(() => {
+    if(userInfo.summonerID === "") {
+      return;
+      
+    } else {
+      fetch( 'https://' + userInfo.region + (type === "solo" ? query[0] : query[1] )  + userInfo.summonerID + '?api_key=' + API_KEY.REACT_APP_API_KEY)
+      .then(response => {
+        if (response.ok) return response.json();
+        throw response;
+      })
+      .then(data => {
+        setDataRank(data.filter((item: { queueType: string; }) => item.queueType === "RANKED_TFT_DOUBLE_UP" || item.queueType === "RANKED_TFT")[0]);
+      })
+      .catch(error => {
+        console.log("Error fetching data: ", error);
+        setError(true)
+      })
+      .finally(() => {
+        setLoading(false);
+      })
+    }
+    // eslint-disable-next-line
+  }, [userInfo])
+  
   function showRank(){
-    const img = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-" + (Data?.tier === undefined ? "" : Data?.tier.toLowerCase()) + ".png"
+    const img = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-" + (DataRank?.tier === undefined ? "" : DataRank?.tier.toLowerCase()) + ".png"
     return (
       <div className='rankContainer_rank'>
         { 
-          Data?.tier === undefined? 
+          DataRank?.tier === undefined? 
           <div className="rankContainer_rank_img rankContainer_rank_unrankedImg">
           <img src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-shared-components/global/default/unranked.png" alt="your Rank" />
           </div>
-          : <div className="rankContainer_rank_img">
+          : 
+          <div className="rankContainer_rank_img">
           <img src={img} alt="your Rank" />
         </div>
         }
         
 
-        <div className='rankContainer_rank_summonerName rankContainer_rank_text'>{name}</div>
-        <div className='rankContainer_rank_rankInfo rankContainer_rank_text'>{Data?.tier === undefined? "Unranked" : Data?.tier + " " + Data?.rank}</div>
-        
-        
+        <div className='rankContainer_rank_summonerName rankContainer_rank_text'>{DataUser?.name}</div>
+        <div className='rankContainer_rank_rankInfo rankContainer_rank_text'>{DataRank?.tier === undefined? "Unranked" : DataRank?.tier + " " + DataRank?.rank}</div>
         <div className='rankContainer_rank_rankedInfo rankContainer_rank_text'><b>Ranked: </b> {type === "solo" ? "Solo/Duo" : "Double Up"}</div>
       </div>
     )
@@ -71,7 +111,7 @@ const ShowRank: FunctionComponent<iProps> = ({ summonerId, type, name }) => {
 
   return (
     <div className="rankContainer">
-      {Loading ? "loading... " : (Error ? "Error": showRank())}
+      {error? "Wrong username or Server" : (Loading ? "" : showRank())}
     </div>
   )
 }

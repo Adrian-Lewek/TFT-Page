@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import {FaSearch} from 'react-icons/fa'
 import '../style/HomePage.scss';
-import Select, { SingleValue } from 'react-select'
-import { useDispatch, useSelector } from 'react-redux';
-type State = {
-  name: string,
-  summonerID: string;
-}
+import Select from 'react-select'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 function HomePage () {
   const [searchUsername, setSearchUsername] = useState("");
   const [region, setRegion] = useState<string | undefined>("eun1");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const optionRegions = [
     {value: "eun1", label: "EUNE"},
     {value: "euw1", label: "EUW"},
@@ -17,11 +17,11 @@ function HomePage () {
     {value: "kr", label: "KR"},
   ]
 
-  const dispatch = useDispatch();
-  const searching = useSelector((state: State) => state);
+  
   function handleSummonerInputSubmit(){
     dispatch({type: 'CHANGE_USER', payload: searchUsername})
-    dispatch({type: 'CHANGE_summonerID', payload: region})
+    dispatch({type: 'CHANGE_REGION', payload: region})
+    navigate('profile/' + searchUsername)
   }
   return (
     <div className="HomePage">
@@ -48,6 +48,7 @@ function HomePage () {
         </div>
       </div>
       <div className="HomePage_laderboardContainer">
+        
       </div>
     </div>
   )

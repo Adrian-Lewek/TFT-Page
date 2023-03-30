@@ -8,10 +8,10 @@ function NavBar (){
           <NavLink to="/">TFT PAGE</NavLink>
         </div>
         <div className="NavBar_container_menuItems">
-          <NavLink to="/profile">Profile</NavLink>
-          <NavLink to="/Champions">Stats</NavLink>
-          <NavLink to="/Items">Database</NavLink>
-          <NavLink to="/Stats">Patch Notes</NavLink>
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/stats">Stats</NavLink>
+          <NavLink to="/database">Database</NavLink>
+          <NavLink to="/patchNotes">Patch Notes</NavLink>
         </div>
       </div>
       

@@ -1,14 +1,11 @@
-import { FunctionComponent } from 'react';
+
 import ShowRank from '../components/ShowRank';
-interface animeType {
-  summonerId: string | undefined,
-  name: string | undefined
-}
-const SummonerPage: FunctionComponent<animeType> = ({ summonerId, name }) => {
+
+function SummonerPage() {
   return (
     <div className="profileContainer">
-      <ShowRank summonerId={summonerId} name={name} type="double"/>
-      <ShowRank summonerId={summonerId} name={name} type="solo"/>
+      <ShowRank type="double"/>
+      <ShowRank type="solo"/>
     </div>
   )
 }

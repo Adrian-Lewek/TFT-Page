@@ -1,0 +1,115 @@
+@import "variables";
+.HomePage{
+  &_mainBanner{
+   max-width: 100%;
+   height: 350px;
+   display: flex;
+   position: relative;
+   justify-content: center;
+   align-items: center;
+    img {
+      width: 100%;
+      object-fit: cover;
+      filter:blur(3px);
+      position: absolute;
+      height: 350px;
+      z-index: -1;
+    }
+    &_searchContainer{
+      display: flex;
+      &_item{
+        input, button, select{
+          height: 50px;
+          border: 0;
+          background-color: $thirdColor;
+          &:focus{
+            outline: none;
+          }
+        }
+        input{
+          width: 400px;
+          padding: 0 20px;
+          font-size: 0.8em;
+        }
+        button{
+          background-color: $fifthColor;
+          color: $thirdColor;
+          width: 80px;
+          font-size: 1em;
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+        .react-select-container{
+          .react-select__control{
+            
+            height: 50px;
+            width: 100px;
+            background-color: $sixthColor;
+            cursor: pointer;
+            font-size: 0.8em;
+            border: 0;
+            border-radius: 0;
+            &--is-focused{
+              box-shadow: none;
+            }
+            .react-select__value-container{
+              max-height: 50px;
+              padding: 0 10px;
+              margin: 0;
+              .react-select__input-container{
+                padding: 0;
+                margin: 0;
+              }
+            }
+            .react-select__input-container{
+              color: $firstColor;
+              height: 50px;
+            }
+            .react-select__indicator{
+              &:hover{
+                color: $firstColor;
+              }
+            }
+            .react-select__single-value{
+              color: $firstColor;
+              font-weight: 600;
+            }
+          }
+          .react-select__menu{
+            margin: 0;
+            border-radius: 0;
+            background-color: $sixthColor;
+            font-size: 0.8em;
+            
+            color: $firstColor;
+            .react-select__option{
+              transition: 0.2s;
+              &--is-focused {
+                background-color: #d3d2d2;
+                color: $firstColor;
+              }
+              &--is-selected{
+                background-color: $fifthColor;
+                color: $thirdColor
+              }
+              &:hover{
+                background-color: #d3d2d2;
+                color: $firstColor;
+              }
+    
+            }
+          
+          }
+        }
+      } 
+    }
+  }
+  &_laderboardContainer{
+    width: 100%;
+    height: 30px;
+    background-color: $secondColor;
+  }
+}

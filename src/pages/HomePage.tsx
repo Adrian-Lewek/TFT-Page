@@ -4,6 +4,7 @@ import '../style/HomePage.scss';
 import Select from 'react-select'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Leaderboard from '../components/Leadeboard';
 function HomePage () {
   const [searchUsername, setSearchUsername] = useState("");
   const [region, setRegion] = useState<string | undefined>("eun1");
@@ -48,7 +49,7 @@ function HomePage () {
         </div>
       </div>
       <div className="HomePage_laderboardContainer">
-        
+        <Leaderboard region='eun1'/>
       </div>
     </div>
   )

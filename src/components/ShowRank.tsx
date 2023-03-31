@@ -111,7 +111,7 @@ const ShowRank: FunctionComponent<iProps> = ({ type }) => {
 
   return (
     <div className="rankContainer">
-      {error? "Wrong username or Server" : (Loading ? "" : showRank())}
+      {error? "Wrong username or Server" : (Loading ? <div className="loader"></div> : showRank())}
     </div>
   )
 }

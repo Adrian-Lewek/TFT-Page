@@ -20,3 +20,19 @@ code {
 a {
   -webkit-tap-highlight-color: transparent;
 }
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border: 7px solid transparent;
+  border-top-color: $fifthColor;
+  border-radius: 50%;
+  animation: loading 1.2s ease-in-out infinite;
+}
+

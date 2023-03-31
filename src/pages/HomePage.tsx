@@ -22,7 +22,8 @@ function HomePage () {
   function handleSummonerInputSubmit(){
     dispatch({type: 'CHANGE_USER', payload: searchUsername})
     dispatch({type: 'CHANGE_REGION', payload: region})
-    navigate('profile/' + searchUsername)
+    if(searchUsername !== "")
+      navigate('profile/' + searchUsername)
   }
   return (
     <div className="HomePage">
@@ -49,7 +50,7 @@ function HomePage () {
         </div>
       </div>
       <div className="HomePage_laderboardContainer">
-        <Leaderboard region='eun1'/>
+        <Leaderboard/>
       </div>
     </div>
   )

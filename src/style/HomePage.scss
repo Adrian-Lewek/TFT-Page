@@ -113,12 +113,10 @@
     display: flex;
     padding: 40px 0;
     background-color: $secondColor;
-    display: flex;
     justify-content: center;
     
     table{
       width: 1100px;
-      border-collapse:unset;
       border-collapse: collapse;
       th{
         padding: 8px;

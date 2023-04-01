@@ -30,9 +30,8 @@ const Leaderboard: FunctionComponent<iProps> = () => {
     sortedLeaderboard = data?.entries.sort((a,b)=> b.leaguePoints - a.leaguePoints).slice(0, 30);
 
   useEffect(() => {
-    //https://eun1.api.riotgames.com/tft/league/v1/challenger?api_key=RGAPI-666dadfe-df88-474d-8d2b-c8b9931cb248
     setLoading(true)
-    fetch('https://'+ userInfo.region + '.api.riotgames.com/tft/league/v1/challenger?api_key=' + API_KEY.REACT_APP_API_KEY)
+    fetch('http://localhost:9000/leaderboard/'+ userInfo.region)
     .then(response => {
       if (response.ok) return response.json();
       throw response;

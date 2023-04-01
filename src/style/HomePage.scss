@@ -121,7 +121,7 @@
       background-color: $fourthColor;
       display: flex;
       flex-direction: column;
-      justify-content: end;
+      justify-content:flex-end;
       gap: 10px;
       &_descContainer{
         width: 100%;

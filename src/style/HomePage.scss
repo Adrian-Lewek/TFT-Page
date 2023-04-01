@@ -113,8 +113,69 @@
     display: flex;
     padding: 40px 0;
     background-color: $secondColor;
-    justify-content: center;
-    
+    flex-direction: column;
+    align-items: center;
+    &_titlebar{
+      width: 1100px;
+      height: 180px;
+      background-color: $fourthColor;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      gap: 10px;
+      &_descContainer{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &_img{
+          width: 110px;
+          height: 80px;
+          display: flex;
+          overflow: hidden;
+          justify-content: center;
+          align-items: center;
+          img{
+            width: 120px;
+            height: 200px;
+            object-fit: cover;
+          }
+        }
+        p:nth-child(1){
+          font-size: 1.3em;
+          font-weight: 600;
+          margin: 0;
+        }
+        p:nth-child(2){
+          font-size: 0.95em;
+          margin: 0;
+          color: $sixthColor;
+        }
+        
+      }
+      &_navigation{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        &_item{
+          width: 115px;
+          height: 55px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1em;
+          transition: 0.2s;
+          cursor: pointer;
+
+          &:hover{
+            background-color: $secondColor;
+          }
+        }
+        &_active{
+          border-bottom: 3px solid $fifthColor;
+        }
+      }
+    }
     table{
       width: 1100px;
       border-collapse: collapse;

@@ -63,10 +63,10 @@ const ShowRank: FunctionComponent<iProps> = ({ type }) => {
   }, [])
 
   useEffect(() => {
-    if(userInfo.summonerID === "") {
-      return;
-      
-    } else {
+    console.log(profile)
+    console.log(userInfo.summonerID)
+    if(userInfo.summonerID !== DataUser?.id) return;
+    else {
       fetch( 'https://' + userInfo.region + (type === "solo" ? query[0] : query[1] )  + userInfo.summonerID + '?api_key=' + API_KEY.REACT_APP_API_KEY)
       .then(response => {
         if (response.ok) return response.json();
@@ -102,8 +102,8 @@ const ShowRank: FunctionComponent<iProps> = ({ type }) => {
         }
         
 
-        <div className='rankContainer_rank_summonerName rankContainer_rank_text'>{DataUser?.name}</div>
-        <div className='rankContainer_rank_rankInfo rankContainer_rank_text'>{DataRank?.tier === undefined? "Unranked" : DataRank?.tier + " " + DataRank?.rank}</div>
+        <div className='rankContainer_rank_rankInfoTier rankContainer_rank_text'>{DataRank?.tier === undefined? "Unranked" : DataRank?.tier + " " + DataRank?.rank}</div>
+        <div className='rankContainer_rank_rankInfo rankContainer_rank_text'>{DataRank?.tier === undefined? null : DataRank?.leaguePoints + " LP"}</div>
         <div className='rankContainer_rank_rankedInfo rankContainer_rank_text'><b>Ranked: </b> {type === "solo" ? "Solo/Duo" : "Double Up"}</div>
       </div>
     )
@@ -111,7 +111,7 @@ const ShowRank: FunctionComponent<iProps> = ({ type }) => {
 
   return (
     <div className="rankContainer">
-      {error? "Wrong username or Server" : (Loading ? <div className="loader"></div> : showRank())}
+      {error? "Wrong username or Server " : (Loading ? <div className='loaderContainer'><div className="loader"></div></div> : showRank())}
     </div>
   )
 }

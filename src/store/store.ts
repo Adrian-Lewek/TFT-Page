@@ -1,24 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-type State = {
-  user: string;
-  summonerID: string;
-  region: string;
-};
+//import { State } from '../interfaces/index'
 
-
+type State = {}
 type Action = {
   type: string;
-  payload: string;
+  payload: {};
 };
 
-function summonerReducer(state: State = {user: "", summonerID: "", region: "eun1"}, action: Action): State {
+function summonerReducer(state: State, action: Action): State {
   switch (action.type) {
-    case "CHANGE_SUMMONER_ID":
-      return {...state, summonerID: action.payload};
-    case "CHANGE_USER":
-      return {...state, user: action.payload};
-    case "CHANGE_REGION":
-      return {...state, region: action.payload};
+    case "CHANGE_LANG":
+      return action.payload;
     default:
       return state;
   }
@@ -26,4 +18,9 @@ function summonerReducer(state: State = {user: "", summonerID: "", region: "eun1
 
 export const store = configureStore({
     reducer: summonerReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
 });

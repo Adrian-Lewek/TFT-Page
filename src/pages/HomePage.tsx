@@ -2,13 +2,11 @@ import { useState } from 'react';
 import {FaSearch} from 'react-icons/fa'
 import '../style/HomePage.scss';
 import Select from 'react-select'
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Leaderboard from '../components/Leadeboard';
 function HomePage () {
   const [searchUsername, setSearchUsername] = useState("");
   const [region, setRegion] = useState<string | undefined>("eun1");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const optionRegions = [
@@ -20,10 +18,8 @@ function HomePage () {
 
   
   function handleSummonerInputSubmit(){
-    dispatch({type: 'CHANGE_USER', payload: searchUsername})
-    dispatch({type: 'CHANGE_REGION', payload: region})
     if(searchUsername !== "")
-      navigate('profile/' + searchUsername)
+      navigate('profile/' + region + '/' + searchUsername)
   }
   return (
     <div className="HomePage">

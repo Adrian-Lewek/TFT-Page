@@ -1,7 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import API_KEY from '../API_KEY.json'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 interface iProps {
 }
 interface DataSummoner {
@@ -13,25 +11,19 @@ interface DataSummoner {
     summonerName: "immoQ";
   }]
 }
-type State = {
-  user: string,
-  summonerID: string;
-  region: string;
-}
 const Leaderboard: FunctionComponent<iProps> = () => {
   const [data, setData] = useState<DataSummoner>();
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate()
-  const userInfo = useSelector((state: State) => state);
-  const dispatch = useDispatch();
+  const [regionLeaderboard, setRegionLeaderboard] = useState("eun1")
   let sortedLeaderboard;
   if(data?.entries.length)
     sortedLeaderboard = data?.entries.sort((a,b)=> b.leaguePoints - a.leaguePoints).slice(0, 30);
 
   useEffect(() => {
     setLoading(true)
-    fetch('http://localhost:9000/leaderboard/'+ userInfo.region)
+    fetch('http://localhost:9000/leaderboard/'+ regionLeaderboard)
     .then(response => {
       if (response.ok) return response.json();
       throw response;
@@ -47,14 +39,14 @@ const Leaderboard: FunctionComponent<iProps> = () => {
       setLoading(false);
     })
     // eslint-disable-next-line
-  }, [userInfo.region])
+  }, [regionLeaderboard])
 
   function handleSummonerClick(name:string){
-    navigate('profile/' + name)
+    navigate('profile/' + regionLeaderboard + '/' + name)
   }
   function handleregionClick(region: string){
-    if(userInfo.region !== region){
-      dispatch({type: 'CHANGE_REGION', payload: region});
+    if(regionLeaderboard !== region){
+      setRegionLeaderboard(region)
     }
   }
   return (
@@ -70,10 +62,10 @@ const Leaderboard: FunctionComponent<iProps> = () => {
           </div>
         </div>
         <div className='HomePage_laderboardContainer_titlebar_navigation'>
-          <div onClick={() => handleregionClick("eun1")} className={userInfo.region === "eun1"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>EUNE</div>
-          <div onClick={() => handleregionClick("euw1")} className={userInfo.region === "euw1"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>EUW</div>
-          <div onClick={() => handleregionClick("na1")} className={userInfo.region === "na1"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>NA</div>
-          <div onClick={() => handleregionClick("kr")} className={userInfo.region === "kr"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>KR</div>
+          <div onClick={() => handleregionClick("eun1")} className={regionLeaderboard === "eun1"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>EUNE</div>
+          <div onClick={() => handleregionClick("euw1")} className={regionLeaderboard === "euw1"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>EUW</div>
+          <div onClick={() => handleregionClick("na1")} className={regionLeaderboard === "na1"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>NA</div>
+          <div onClick={() => handleregionClick("kr")} className={regionLeaderboard === "kr"? "HomePage_laderboardContainer_titlebar_navigation_item HomePage_laderboardContainer_titlebar_navigation_active":"HomePage_laderboardContainer_titlebar_navigation_item"}>KR</div>
         </div>
       </div>
       {error? "Error with connection to Servers!" : (loading ? <div className="loader"></div>  :

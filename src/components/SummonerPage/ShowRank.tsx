@@ -1,8 +1,8 @@
 import { FunctionComponent} from 'react';
-import {DataSummonerRank} from '../interfaces/index'
+import {IDataSummonerRank} from '../../interfaces/index'
 type iProps = {
   type: string,
-  DataRank: DataSummonerRank | undefined
+  DataRank: IDataSummonerRank | undefined
 }
 
 const ShowRank: FunctionComponent<iProps> = ({ type, DataRank }) => {

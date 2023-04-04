@@ -192,6 +192,57 @@
             }
           }
         }
+        &_champions{
+          display: flex;
+          gap: 12px;
+          width: 550px;
+          flex-wrap: wrap;
+          .championContainer{
+            width: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            &_stars{
+              display: flex;
+              justify-content: center;
+              font-size: 0.85em;
+              height: 15px;
+              &_thirdTier{
+                color: #feca10;
+              }
+              &_secondTier{
+                color: #ededed;
+              }
+            }
+            &_images{
+              height: 50px;
+              width: 50px;
+              display: flex;
+              justify-content: center;
+              margin: 0;
+              border: solid 2px;
+              border-radius: 5px;
+              img{
+                height: 100%;
+                width: 100%;
+                object-fit:cover;
+                object-position: 100%;
+              }
+            }
+            &_items{
+              gap: 3px;
+              display: flex;
+              &_itemImg{
+                width: 15px;
+                height: 15px;
+                img{
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

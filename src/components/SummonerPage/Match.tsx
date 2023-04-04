@@ -1,19 +1,21 @@
 import {useEffect, useState} from 'react'
-import {IAugments, IMatchInfo} from '../../interfaces/index'
+import {IFiles, IMatchInfo} from '../../interfaces/index'
 import { ILittleLegendsImages } from '../../interfaces/index'
+import ChampionIcon from './ChampionIcon'
 interface Props {
   match: string,
   region: string,
   puuid: string,
   version: string
   tacticanInfo: ILittleLegendsImages | undefined
-  augments: IAugments | undefined,
-  heroAugments: IAugments | undefined,
+  augments: IFiles | undefined,
+  heroAugments: IFiles | undefined,
+  champions: IFiles | undefined,
+  items: IFiles | undefined,
 }
-const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, augments, heroAugments}) => {
+const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, augments, heroAugments, champions, items}) => {
   const [data, setData] = useState<IMatchInfo>()
   const [loading, setLoading] = useState(true)
-  //const [summonerMatch, setSummonerMatch] = useState()
   const summonerMatch = () => {
    if(data !== undefined){
     return data.info.participants.find(item => item.puuid === puuid)
@@ -63,7 +65,6 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
       console.log(error);
     })
     .finally(() => setLoading(false));
-
   },[])
     return (
     <>
@@ -83,14 +84,25 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
         <img src={'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-tactician/' + tacticanInfo?.data[summonerMatchInfo?.companion.item_ID ?? 1].image.full} alt="" />
       </div>
       <div className="matchContainer_augments">
-        {summonerMatchInfo?.augments.map((item, index)=> {
-          const img = heroAugments?.data[item] ? 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-hero-augment/' + heroAugments.data[item].image.full : 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-augment/' + augments?.data[item].image.full;
-          return(<div className='matchContainer_augments_item' key={index}> <img src={img} alt={item} /> </div>)
+        {summonerMatchInfo?.augments.map((augment, index)=> {
+          const img = heroAugments?.data[augment] ? 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-hero-augment/' + heroAugments.data[augment].image.full : 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-augment/' + augments?.data[augment].image.full;
+          return(<div className='matchContainer_augments_item' key={index}> <img src={img} alt={augment} /> </div>)
         })}
       </div>
       
-      <div className="matchContainer_Champions">
-
+      <div className="matchContainer_champions">
+        {summonerMatchInfo?.units.map((unit, index) => {
+          return (<div className="championContainer" key={index}>
+            { champions?.data[unit.character_id] ? 
+              <ChampionIcon 
+              championsInfo={champions} 
+              itemsInfo={items} tier={unit.tier} 
+              rarity={unit.rarity} 
+              items={unit.itemNames} 
+              championId={unit.character_id}
+            /> : null}
+           </div>)
+        })}
       </div>
       <div className="matchContainer_traits">
 

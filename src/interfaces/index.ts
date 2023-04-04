@@ -110,7 +110,7 @@ export interface ILittleLegendsImages {
     tier: string
   }[]
 }
-export interface IAugments{
+export interface IFiles{
   data: 
   {
     [key: string]:{

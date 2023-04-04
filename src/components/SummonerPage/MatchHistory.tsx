@@ -25,11 +25,11 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
       setVersion(data[0])
 
       Promise.all([
-        fetch("http://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-tactician.json"),
-        fetch("http://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-hero-augments.json"),
-        fetch("http://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-augments.json"),
-        fetch("http://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-item.json"),
-        fetch("http://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-champion.json"),
+        fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-tactician.json"),
+        fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-hero-augments.json"),
+        fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-augments.json"),
+        fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-item.json"),
+        fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-champion.json"),
       ])
         .then(responses => Promise.all(responses.map(response => response.json())))
         .then(dataAll => {

@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/TFT-Page/static/css/main.cb76da26.css",
-    "main.js": "/TFT-Page/static/js/main.e63594fc.js",
+    "main.js": "/TFT-Page/static/js/main.f68c67fe.js",
     "index.html": "/TFT-Page/index.html",
     "main.cb76da26.css.map": "/TFT-Page/static/css/main.cb76da26.css.map",
-    "main.e63594fc.js.map": "/TFT-Page/static/js/main.e63594fc.js.map"
+    "main.f68c67fe.js.map": "/TFT-Page/static/js/main.f68c67fe.js.map"
   },
   "entrypoints": [
     "static/css/main.cb76da26.css",
-    "static/js/main.e63594fc.js"
+    "static/js/main.f68c67fe.js"
   ]
 }

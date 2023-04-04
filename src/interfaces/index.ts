@@ -1,3 +1,5 @@
+export const HOST = "https://bored-ruby-stole.cyclic.app/";
+
 export interface IDataSummonerName {
   accountId: string,
   id: string,

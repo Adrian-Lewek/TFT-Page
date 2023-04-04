@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import ShowRank from '../components/SummonerPage/ShowRank';
-import { IDataSummonerName, IDataSummonerRank} from '../interfaces';
+import { HOST, IDataSummonerName, IDataSummonerRank} from '../interfaces';
 import { useParams } from 'react-router-dom';
 import SummonerInfoStats from '../components/SummonerPage/SummonerInfoStats'
 import MatchHistory from '../components/SummonerPage/MatchHistory';
@@ -16,7 +16,7 @@ function SummonerPage() {
   const [allMatch, setAllMatch] = useState<string[]>([])
   const [fetchCount, setFetchCount] = useState(2);
   function fetchSummonerRank(type:string){
-    fetch('http://localhost:9000/summoner/rank/'+ region +'/' + type +'/'+ dataUser?.id )
+    fetch(HOST + 'summoner/rank/'+ region +'/' + type +'/'+ dataUser?.id )
       .then(response => {
         if (response.ok) return response.json();
         throw response;
@@ -49,7 +49,7 @@ function SummonerPage() {
     }
   }
   useEffect(() => {
-    fetch('http://localhost:9000/summoner/'+ region + '/' + profile)
+    fetch(HOST + 'summoner/'+ region + '/' + profile)
     .then(response => {
       if (response.ok) return response.json();
       throw response;
@@ -69,7 +69,7 @@ function SummonerPage() {
     if(dataUser?.puuid !== undefined && allMatch.length === 0 && fetchCount === 0){
       const countMatches = (dataRankSolo?.wins ? dataRankSolo.wins : 0) + (dataRankSolo?.losses ? dataRankSolo.losses : 0) + (dataRankDouble?.wins ? dataRankDouble.wins : 0) + (dataRankDouble?.losses ? dataRankDouble.losses : 0)
       const regionFull = getRegionFull(region ?? "eun1")
-      fetch('http://192.168.0.10:9000/summoner/match/' + regionFull + '/'+ dataUser?.puuid+'/'+countMatches)
+      fetch(HOST + 'summoner/match/' + regionFull + '/'+ dataUser?.puuid+'/'+countMatches)
       .then(response => {
         if (response.ok) return response.json();
         throw response;

@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {IFiles, IMatchInfo} from '../../interfaces/index'
+import {HOST, IFiles, IMatchInfo} from '../../interfaces/index'
 import { ILittleLegendsImages } from '../../interfaces/index'
 import ChampionIcon from './ChampionIcon'
 interface Props {
@@ -53,7 +53,7 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
   }
   const summonerMatchInfo = summonerMatch()
   useEffect(() =>{
-    fetch('http://192.168.0.10:9000/match/matchInfo/' + region + '/' + match)
+    fetch(HOST + 'match/matchInfo/' + region + '/' + match)
     .then(response => {
       if(response.ok) return response.json();
       throw response;

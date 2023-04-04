@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { HOST } from '../interfaces';
 interface iProps {
 }
 interface DataSummoner {
@@ -23,7 +24,7 @@ const Leaderboard: FunctionComponent<iProps> = () => {
 
   useEffect(() => {
     setLoading(true)
-    fetch('http://localhost:9000/leaderboard/'+ regionLeaderboard)
+    fetch(HOST + 'leaderboard/'+ regionLeaderboard)
     .then(response => {
       if (response.ok) return response.json();
       throw response;

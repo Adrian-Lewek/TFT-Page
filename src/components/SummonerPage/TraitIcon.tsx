@@ -12,7 +12,6 @@ interface Props {
 const TraitIcon: React.FC<Props> = ({styles, url, name}) => {
   const [showInfo, setShowInfo] = useState(false)
   const handleMouseEnter = () => {
-    console.log('test')
     setShowInfo(true);
   };
 

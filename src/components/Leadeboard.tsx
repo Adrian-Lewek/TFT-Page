@@ -9,7 +9,7 @@ interface DataSummoner {
     losses: number;
     wins: number;
     leaguePoints: number;
-    summonerName: "immoQ";
+    summonerName: string;
   }]
 }
 const Leaderboard: FunctionComponent<iProps> = () => {

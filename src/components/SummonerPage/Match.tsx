@@ -6,7 +6,7 @@ import {BsChevronRight } from 'react-icons/bs'
 import TraitIcon from './TraitIcon'
 import AugmentIcon from './AugmentIcon'
 
-interface Props {
+export interface Props {
   match: string,
   region: string,
   puuid: string,
@@ -17,15 +17,17 @@ interface Props {
   champions: IFiles | undefined,
   items: IFiles | undefined,
   traitInfo: IFiles | undefined,
+  setPlaces: (place:number, type:string) => void
 } 
-const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, augments, heroAugments, champions, items, traitInfo}) => {
+const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, augments, heroAugments, champions, items, traitInfo, setPlaces}) => {
   const [data, setData] = useState<IMatchInfo>()
   const [loading, setLoading] = useState(true)
   const [morePlayers, setMorePlayers] = useState(false)
 
   const summonerMatch = () => {
    if(data !== undefined){
-    return data.info.participants.find(item => item.puuid === puuid)
+    const summonerData = data.info.participants.find(item => item.puuid === puuid);
+    return summonerData
    }
    return null
   }  
@@ -61,6 +63,7 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
   function getBackgroundColor(style:number){
     switch (style) {
       case 0:
+        return "#7d1092"
       case 3:
         return "#d8b01c"
       case 1: 
@@ -83,6 +86,8 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
     })
     .then(data => {
       setData(data);
+      const participant = data.info.participants.find((item: { puuid: string }) => item.puuid === puuid);
+      data?.info.tft_game_type === "pairs" ? setPlaces(getDoubleUpPlacement(participant?.placement ?? 0) , "double") : setPlaces(participant?.placement ?? 0, "solo")
     })
     .catch(error => {
       console.log(error);

@@ -11,10 +11,14 @@ function SummonerPage() {
   const [dataRankDouble, setDataRankDouble] = useState<IDataSummonerRank>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-
+  const [placesSolo, setPlacesSolo] = useState<number[]>([])
+  const [placesDouble, setPlacesDouble] = useState<number[]>([])
   const {profile, region} = useParams();
   const [allMatch, setAllMatch] = useState<string[]>([])
   const [fetchCount, setFetchCount] = useState(2);
+  useEffect(() =>{
+    console.log(placesDouble)
+  },[placesDouble])
   function fetchSummonerRank(type:string){
     fetch(HOST + 'summoner/rank/'+ region +'/' + type +'/'+ dataUser?.id )
       .then(response => {
@@ -47,6 +51,24 @@ function SummonerPage() {
       default:
         return "europe"
     }
+  }
+  function countPlace(type: string){
+    if(type === "double"){
+      if (placesDouble.length > 0){
+        return (Math.floor((placesDouble.reduce((acc, curr) => acc + curr) / placesDouble.length)*10)/10).toString();
+      }
+      else return 0
+    } else{
+      if (placesSolo.length > 0){
+        return (Math.floor((placesSolo.reduce((acc, curr) => acc + curr) / placesSolo.length)*10)/10).toString();
+      }
+      else return ""
+    }
+  }
+  function addPlace(place:number, type:string){
+    console.log(type)
+    if(type === "solo") setPlacesSolo(prev => [...prev , place]);
+    else setPlacesDouble(prev => [...prev , place]);
   }
   useEffect(() => {
     fetch(HOST + 'summoner/'+ region + '/' + profile)
@@ -113,14 +135,14 @@ function SummonerPage() {
         loading? <div className='loader'/> :
         <>
           <div className="summonerInfo">
-            <SummonerInfoStats profileIconId={dataUser?.profileIconId} soloWinrate={soloWinrate} doubleWinrate={doubleWinrate} name={dataUser?.name} />
+            <SummonerInfoStats placeSolo={countPlace("solo").toString()} placeDouble={countPlace("double").toString()} profileIconId={dataUser?.profileIconId} soloWinrate={soloWinrate} doubleWinrate={doubleWinrate} name={dataUser?.name} />
           </div>
           <div className="profileContainer_rank">
             <ShowRank type="solo" DataRank={dataRankSolo}/>
             <ShowRank type="double" DataRank={dataRankDouble}/>
           </div>
           <div className="matchHistory">
-          <MatchHistory puuid={dataUser?.puuid ?? ""} region={getRegionFull(region ?? "eun1") ?? "europe"} match={allMatch} />
+          <MatchHistory setPlaces={addPlace} puuid={dataUser?.puuid ?? ""} region={getRegionFull(region ?? "eun1") ?? "europe"} match={allMatch} />
         </div>
         </>
         }

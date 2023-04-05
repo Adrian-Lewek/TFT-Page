@@ -5,9 +5,10 @@ interface Props {
   match: string[]
   region: string;
   puuid: string
+  setPlaces: (place:number, type:string) => void
 }
 
-const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
+const MatchHistory: React.FC<Props> = ({match, region, puuid, setPlaces}) => {
   const [data, setData] = useState<ILittleLegendsImages>()
   const [augments, setAugment] = useState<IFiles>()
   const [heroAugments, setHeroAugments] = useState<IFiles>()
@@ -22,6 +23,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
       if(response.ok) return response.json();
       throw response;
     })
+
     .then(data => {
       setVersion(data[0])
 
@@ -52,13 +54,13 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
       console.log(error);
     })
   }, [])
+  
   return (
     <>
       { loading ? <div className="loader"/> : 
       <>
-      <div className="matchHistory_lastPlace"></div>
       <div className="matchHistory_container">
-        {match.slice(0,7).map((item, index )=> <Match version={version ?? '13.6.1'} traitInfo={trait} champions={champions} items={items} augments={augments} heroAugments={heroAugments} tacticanInfo={data} key={index} puuid={puuid} region={region} match={item}/>)}
+        {match.slice(0,7).map((item, index )=> <Match setPlaces={setPlaces} version={version ?? '13.6.1'} traitInfo={trait} champions={champions} items={items} augments={augments} heroAugments={heroAugments} tacticanInfo={data} key={index} puuid={puuid} region={region} match={item}/>)}
       </div>
       </>
       }

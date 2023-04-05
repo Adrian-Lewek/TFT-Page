@@ -148,6 +148,7 @@
       flex-direction: column;
       gap: 20px;
       .matchContainer{
+        min-height: 120px;
         width: 100;
         background-color: $firstColor;
         display: flex;
@@ -183,8 +184,11 @@
         &_augments{
           display: flex;
           flex-direction: column;
+          
           gap: 5px;
           &_item{
+            position: relative;
+            cursor: pointer;
             height: 30px;
             border: solid 2px $secondColor;
             img{
@@ -198,6 +202,8 @@
           width: 550px;
           flex-wrap: wrap;
           .championContainer{
+            position: relative;
+            cursor: pointer;
             width: 50px;
             display: flex;
             flex-direction: column;
@@ -233,6 +239,8 @@
               gap: 3px;
               display: flex;
               &_itemImg{
+                position: relative;
+                cursor: pointer;
                 width: 15px;
                 height: 15px;
                 img{
@@ -241,9 +249,68 @@
                 }
               }
             }
+
+          }
+        }
+        &_traits{
+          display: flex;
+          
+          flex-wrap: wrap;
+          gap: 3px;
+          width: 150px;
+          &_traitHover{
+            position: relative;
+            cursor: pointer;
+          }
+          &_trait{
+            padding: 2px;
+            background-color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            
+            clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+            img{
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+        &_more{
+          width: 60px;
+          button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: 100%;
+            font-size: 1.7em;
+            background-color: transparent;
+            border: none;
+            color: $thirdColor;
+            cursor: pointer;
+            transition: 0.3s;
+            &:hover{
+              color: $fifthColor;
+            }
           }
         }
       }
     }
   }
+}
+.showInformations {
+  position: absolute;
+  display: flex;
+  width: 200px;
+  background-color: $fourthColor;
+  justify-content: center;
+  padding: 5px;
+  z-index: 999;
+  top: -40px;
+  border-radius: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }

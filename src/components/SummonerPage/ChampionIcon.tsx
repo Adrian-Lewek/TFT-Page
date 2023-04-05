@@ -1,15 +1,29 @@
 import { IFiles } from "../../interfaces"
 import {AiFillStar} from 'react-icons/ai'
+import ItemIcon from "./ItemIcon";
+import { useState } from "react";
+import ShowInformations from "./ShowInformations";
 interface Props {
   tier: number,
   rarity: number,
+  name: string,
   items: string[],
   championId: string,
   championsInfo: IFiles | undefined,
   itemsInfo: IFiles | undefined,
 }
 
-const ChampionIcon: React.FC<Props> = ({tier, rarity, items, championId, championsInfo, itemsInfo}) => {
+const ChampionIcon: React.FC<Props> = ({tier, rarity, items, championId, championsInfo, itemsInfo, name}) => {
+  const [showInfo, setShowInfo] = useState(false)
+  const handleMouseEnter = () => {
+    setShowInfo(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowInfo(false);
+  };
+
+
   function getStars(){
     switch(tier){
       case 1:
@@ -41,15 +55,14 @@ const ChampionIcon: React.FC<Props> = ({tier, rarity, items, championId, champio
       <div className="championContainer_stars">
         {getStars()}
       </div>
-      <div className="championContainer_images" style={{borderColor: getRarityColor()}}>
+      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="championContainer_images" style={{borderColor: getRarityColor()}}>
         <img src={ 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-champion/' + championsInfo?.data[championId].image.full} alt="" />
+        {showInfo ? <ShowInformations name={name}/> : ""}
       </div>
       <div className="championContainer_items">
         {items.map((item, index) => {
           return (
-            <div key={index} className="championContainer_items_itemImg">
-              <img src={'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-item/'+item+'.png'} alt="" />
-            </div>
+            <ItemIcon name={itemsInfo?.data[item] ? itemsInfo?.data[item].name : ""} key={index} url={'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-item/' + item + '.png'}/>
           )
         })}
       </div>

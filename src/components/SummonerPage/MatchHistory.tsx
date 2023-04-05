@@ -12,6 +12,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
   const [augments, setAugment] = useState<IFiles>()
   const [heroAugments, setHeroAugments] = useState<IFiles>()
   const [champions, setChampions] = useState<IFiles>()
+  const [trait, setTrait] = useState<IFiles>()
   const [items, setItems] = useState<IFiles>()
   const [loading, setLoading] = useState(true)
   const [version, setVersion] = useState()
@@ -30,6 +31,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
         fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-augments.json"),
         fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-item.json"),
         fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-champion.json"),
+        fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-trait.json"),
       ])
         .then(responses => Promise.all(responses.map(response => response.json())))
         .then(dataAll => {
@@ -38,6 +40,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
           setAugment(dataAll[2]);
           setItems(dataAll[3]);
           setChampions(dataAll[4]);
+          setTrait(dataAll[5]);
         })
         .catch(error => {
           console.log(error);
@@ -48,9 +51,6 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
     .catch(error => {
       console.log(error);
     })
-
-    
-
   }, [])
   return (
     <>
@@ -58,7 +58,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid}) => {
       <>
       <div className="matchHistory_lastPlace"></div>
       <div className="matchHistory_container">
-        {match.slice(0,7).map((item, index )=> <Match version={version ?? '13.6.1'} champions={champions} items={items} augments={augments} heroAugments={heroAugments} tacticanInfo={data} key={index} puuid={puuid} region={region} match={item}/>)}
+        {match.slice(0,7).map((item, index )=> <Match version={version ?? '13.6.1'} traitInfo={trait} champions={champions} items={items} augments={augments} heroAugments={heroAugments} tacticanInfo={data} key={index} puuid={puuid} region={region} match={item}/>)}
       </div>
       </>
       }

@@ -240,11 +240,9 @@
               &_itemImg{
                 position: relative;
                 cursor: pointer;
-                width: 15px;
-                height: 15px;
                 img{
-                  width: 100%;
-                  height: 100%;
+                  width: 15px;
+                  height: 15px;
                 }
               }
             }
@@ -300,15 +298,107 @@
     }
   }
 }
+.morePlayerContainer{
+  .morePlayerContainer_table{
+    
+    padding: 10px;
+    background-color: $firstColor;
+  }
+  table{
+    border-collapse: collapse;
+    width: 100%;
+    tbody{
+      tr{
+        height: 110px;
+        gap: 10px;
+      td{
+      }
+      }
+    }
+    thead{
+      tr{
+        height: 40px;
+        font-size: 0.7em;
+        th{
+          border-bottom: solid red 3px;
+        }
+      }
+    }
+  }
+  
+  &_placement{
+    
+    gap: 10px;
+    &_cont{
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    &_place{
+      font-size: 1.2em;
+      font-weight: 600;
+      width: 30px;
+    }
+    &_profilePic{
+      height: auto;
+      border-radius: 50%;
+      border: 4px solid $secondColor;
+      overflow: hidden;
+      display: flex;
+      img{
+        height: 40px;
+        width: 40px;
+        object-fit: cover;
+      }
+    }
+  }
+  &_champions{
+    width: 480px;
+    .matchContainer_champions{
+      width: 100% !important;
+      gap: 2px !important;
+      .championContainer{
+        &:nth-child(n+10){
+          display: none !important;
+        }
+        .championContainer_images{
+          height: 40px !important;
+          width: 40px !important;
+          img{
+            height: 100%;
+            width: 100%;
+          }
+          
+        }
+      }
+    }
+  }
+  &_traits{
+    width: 100px;
+    &_con{
+      display: flex;
+      gap: 3px;
+      flex-wrap: wrap;
+      .matchContainer_traits_traitHover:nth-child(n+10){
+        display: none;
+      }
+      .matchContainer_traits_trait{
+        width: 25px !important;
+        height: 25px !important;
+      }
+    }
+  }
+}
 .showInformations {
   position: absolute;
   display: flex;
-  width: 200px;
+  min-width: 200px;
   background-color: $fourthColor;
   justify-content: center;
   padding: 5px;
   z-index: 999;
   top: -40px;
+  text-align: center;
   border-radius: 15px;
   left: 50%;
   transform: translateX(-50%);

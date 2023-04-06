@@ -16,9 +16,6 @@ function SummonerPage() {
   const {profile, region} = useParams();
   const [allMatch, setAllMatch] = useState<string[]>([])
   const [fetchCount, setFetchCount] = useState(2);
-  useEffect(() =>{
-    console.log(placesDouble)
-  },[placesDouble])
   function fetchSummonerRank(type:string){
     fetch(HOST + 'summoner/rank/'+ region +'/' + type +'/'+ dataUser?.id )
       .then(response => {
@@ -66,7 +63,6 @@ function SummonerPage() {
     }
   }
   function addPlace(place:number, type:string){
-    console.log(type)
     if(type === "solo") setPlacesSolo(prev => [...prev , place]);
     else setPlacesDouble(prev => [...prev , place]);
   }

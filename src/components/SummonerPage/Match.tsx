@@ -2,9 +2,11 @@ import {useEffect, useState} from 'react'
 import {HOST, IFiles, IMatchInfo} from '../../interfaces/index'
 import { ILittleLegendsImages } from '../../interfaces/index'
 import ChampionIcon from './ChampionIcon'
-import {BsChevronRight } from 'react-icons/bs'
+import {BsChevronDown, BsChevronUp } from 'react-icons/bs'
 import TraitIcon from './TraitIcon'
 import AugmentIcon from './AugmentIcon'
+import { useTransition, animated } from 'react-spring'
+import ShowAllPlayers from './ShowAllPlayers'
 
 export interface Props {
   match: string,
@@ -23,7 +25,11 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
   const [data, setData] = useState<IMatchInfo>()
   const [loading, setLoading] = useState(true)
   const [morePlayers, setMorePlayers] = useState(false)
-
+  const transition = useTransition(morePlayers, {
+    from: {height: 0, opacity: 0, marginTop: 0},
+    enter: {height: 950, opacity: 1, marginTop: 10},
+    leave: {height: 0, opacity: 0, marginTop: 0}
+  })
   const summonerMatch = () => {
    if(data !== undefined){
     const summonerData = data.info.participants.find(item => item.puuid === puuid);
@@ -110,7 +116,6 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
           </div>
         </div>
         <div className="matchContainer_profilePic">
-          
           <img src={'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-tactician/' + tacticanInfo?.data[summonerMatchInfo?.companion.item_ID ?? 1].image.full} alt="" />
         </div>
         <div className="matchContainer_augments">
@@ -142,8 +147,13 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
           }) : ""}
         </div>
         <div className="matchContainer_more">
-          <button onClick={() => setMorePlayers(prev => !prev)}><BsChevronRight/></button>
+          <button onClick={() => setMorePlayers(prev => !prev)}> {morePlayers ? <BsChevronUp/> : <BsChevronDown/> } </button>
         </div>
+      </div>
+      <div className="morePlayerContainer">
+        { transition((style, item) =>
+          item ? <animated.div style={style} className="item"><ShowAllPlayers getBackgroundColor={getBackgroundColor} heroAugments={heroAugments} traitInfo={traitInfo} items={items} champions={champions} version={version} tacticanInfo={tacticanInfo} match={data}/></animated.div> : ""
+        ) }
       </div>
     </div>
   }

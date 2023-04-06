@@ -152,7 +152,19 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
       </div>
       <div className="morePlayerContainer">
         { transition((style, item) =>
-          item ? <animated.div style={style} className="item"><ShowAllPlayers getBackgroundColor={getBackgroundColor} heroAugments={heroAugments} traitInfo={traitInfo} items={items} champions={champions} version={version} tacticanInfo={tacticanInfo} match={data}/></animated.div> : ""
+          item ? <animated.div style={style} className="item">
+            <ShowAllPlayers 
+            augments={augments} 
+            getDoubleUpPlacement={getDoubleUpPlacement} 
+            getBackgroundColor={getBackgroundColor} 
+            heroAugments={heroAugments}
+            traitInfo={traitInfo} 
+            items={items} 
+            champions={champions} 
+            version={version} 
+            tacticanInfo={tacticanInfo} 
+            match={data}/>
+            </animated.div> : ""
         ) }
       </div>
     </div>

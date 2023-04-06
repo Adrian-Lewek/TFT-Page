@@ -300,8 +300,6 @@
 }
 .morePlayerContainer{
   .morePlayerContainer_table{
-    
-    padding: 10px;
     background-color: $firstColor;
   }
   table{
@@ -311,17 +309,26 @@
       tr{
         height: 110px;
         gap: 10px;
-      td{
-      }
+        td{
+          text-align: center;
+        }
+        &:nth-child(even){
+          background-color:#262c33;
+        }
+        &:nth-child(odd){
+          background-color: #2f373f;
+         
+        }
       }
     }
     thead{
       tr{
-        height: 40px;
+        height: 60px;
         font-size: 0.7em;
         th{
-          border-bottom: solid red 3px;
+          border-bottom: solid $fifthColor 3px;
         }
+        
       }
     }
   }
@@ -333,6 +340,8 @@
       display: flex;
       align-items: center;
       height: 100%;
+      gap: 7px;
+      justify-content: center;
     }
     &_place{
       font-size: 1.2em;
@@ -385,6 +394,16 @@
       .matchContainer_traits_trait{
         width: 25px !important;
         height: 25px !important;
+      }
+    }
+  }
+  &_augments{
+    &_con{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .matchContainer_augments_item{
+        width: 30px !important;
       }
     }
   }

@@ -13,9 +13,11 @@
     max-width: $defaultSize;
     width: 100%;
     .active{
+      transition: 0.3s;
       border-bottom: solid 3px $fifthColor;
     }
     a{
+      
       text-decoration: none;
       border-bottom: solid 3px transparent;
       color: $thirdColor;

@@ -1,3 +1,4 @@
+//component for basic statisctic about summoner
 import WinrateBarComponent from "./WinrateBarComponent";
 
 interface Props {

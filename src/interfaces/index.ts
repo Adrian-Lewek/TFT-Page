@@ -1,5 +1,6 @@
 export const HOST = "https://bored-ruby-stole.cyclic.app/";
 
+//basic informations about summoner
 export interface IDataSummonerName {
   accountId: string,
   id: string,
@@ -9,6 +10,7 @@ export interface IDataSummonerName {
   revisionDate: number,
   summonerLevel: number
 }
+//summoner rank informations
 export interface IDataSummonerRank {
   freshBlood: boolean,
   hotStreak: boolean,
@@ -24,13 +26,34 @@ export interface IDataSummonerRank {
   veteran: boolean,
   wins: number,
 }
+//all informations about nearly everything O_o
 export interface ILang_EN {
   items:
     {
-      apiName: string,
-      desc: string,
       name: string
-      icon: string
+      apiName: string,
+      cost: number,
+      abitlity: {
+        desc: string,
+        name: string,
+        variables: {
+          name: string,
+          value: number[]
+        }[]
+      }
+      stats: {
+        armor: number,
+        attackSpeed: number,
+        critChance: number,
+        critMultiplier: number,
+        damage: number,
+        hp: number,
+        initialMana: number,
+        magicResist: number,
+        mana: number,
+        range: number,
+      }
+      traits: string[]
     }[],
   setData: {
     champions: 
@@ -39,8 +62,23 @@ export interface ILang_EN {
           desc: string,
           icon: string,
           name: string,
-          variables: number[]
+          variables: {
+            name: string,
+            value: number[]
+          }[]
         },
+        stats: {
+          armor: number,
+          attackSpeed: number,
+          critChance: number,
+          critMultiplier: number,
+          damage: number,
+          hp: number,
+          initialMana: number,
+          magicResist: number,
+          mana: number,
+          range: number,
+        }
         apiName: string,
         cost: number,
         icon: string,
@@ -57,10 +95,16 @@ export interface ILang_EN {
         desc: string,
         icon: string,
         name: string
+        effects: {
+          variables: {
+           [key: string]: number 
+          }[]
+        }[]
       } []
 }[],
 
 }
+//informations about match
 export interface IMatchInfo{
   metadata: {
     participants: string[]
@@ -102,6 +146,7 @@ export interface IMatchInfo{
     tft_set_number: 8
   }
 }
+//informations about little legend
 export interface ILittleLegendsImages {
   data: {
     id: string,
@@ -112,6 +157,7 @@ export interface ILittleLegendsImages {
     tier: string
   }[]
 }
+//informations about augments, traits, champions (u can write here whatever you want if its from riot)
 export interface IFiles{
   data: 
   {
@@ -123,4 +169,13 @@ export interface IFiles{
       name: string
     }
   }
+}
+//basic informations about champions
+export interface IChampion{
+  id: string,
+  image: {
+    full: string,
+  }
+  name: string,
+  tier: number
 }

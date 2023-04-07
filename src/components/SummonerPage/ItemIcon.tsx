@@ -1,3 +1,4 @@
+//component for showing item mainly in match history
 import {useState} from 'react'
 import ShowInformations from './ShowInformations';
 interface Props {

@@ -1,3 +1,4 @@
+//component for showing all players who play match and stats
 import {IFiles, ILittleLegendsImages, IMatchInfo} from '../../interfaces/index'
 import AugmentIcon from './AugmentIcon'
 import ChampionIcon from './ChampionIcon'
@@ -39,24 +40,32 @@ const ShowAllPlayers: React.FC<Props> = ({match, tacticanInfo, version, champion
                 <div className="morePlayerContainer_placement_cont">
                   <div className="morePlayerContainer_placement_place"> #{match?.info.tft_game_type === "pairs" ? getDoubleUpPlacement(player.placement) : player.placement} </div>
                   <div className="morePlayerContainer_placement_profilePic">
-                    <img src={'http://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-tactician/' + tacticanInfo?.data[player?.companion.item_ID ?? 1].image.full} alt="" />
+                    <img src={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-tactician/' + tacticanInfo?.data[player?.companion.item_ID ?? 1].image.full} alt="" />
                   </div>
                 </div>
               </td>
               <td className='morePlayerContainer_champions'>
               <div className="matchContainer_champions">
-                {player?.units.map((unit, index) => {
-                  return (<div className="championContainer" key={index}>
-                    { champions?.data[unit.character_id] ? 
-                  <ChampionIcon 
-                  name={champions.data[unit.character_id].name}
-                  championsInfo={champions} 
-                  itemsInfo={items} tier={unit.tier} 
-                  rarity={unit.rarity} 
-                  items={unit.itemNames} 
-                  championId={unit.character_id}
-                /> : null}
-            </div>)
+                {player?.units.sort((a,b)=>{
+                  if(a.tier === b.tier) {
+                    if(b.itemNames.length === a.itemNames.length) return b.rarity - a.rarity
+                    return b.itemNames.length - a.itemNames.length
+                  }
+                  return b.tier - a.tier
+                }).map((unit, index) => {
+                  if( champions?.data[unit.character_id] ) 
+                    return (
+                    <ChampionIcon 
+                      version={version}
+                      name={champions.data[unit.character_id].name}
+                      championsInfo={champions} 
+                      itemsInfo={items} tier={unit.tier} 
+                      rarity={unit.rarity} 
+                      items={unit.itemNames} 
+                      championId={unit.character_id}
+                    />
+                    );
+                  else return null;
           })}
         </div>
               </td>
@@ -64,7 +73,7 @@ const ShowAllPlayers: React.FC<Props> = ({match, tacticanInfo, version, champion
                 <div className="morePlayerContainer_traits_con">
                   {player ? player.traits.filter(trait => trait.tier_current > 0).sort((a,b) => b.style - a.style).map((trait, index) => {
                     return(
-                      <TraitIcon name={traitInfo?.data[trait.name]? traitInfo?.data[trait.name].name : "" } key={index} url={'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-trait/' + traitInfo?.data[trait.name].image.full} styles={{backgroundColor: getBackgroundColor(trait.style)}}/>
+                      <TraitIcon name={traitInfo?.data[trait.name]? traitInfo?.data[trait.name].name : "" } key={index} url={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-trait/' + traitInfo?.data[trait.name].image.full} styles={{backgroundColor: getBackgroundColor(trait.style)}}/>
                     )
                   }) : ""}
                 </div>
@@ -72,8 +81,10 @@ const ShowAllPlayers: React.FC<Props> = ({match, tacticanInfo, version, champion
               <td className='morePlayerContainer_augments'>
                 <div className="morePlayerContainer_augments_con">
                   {player ? player.augments.map((augment, index) => {
-                    const img = heroAugments?.data[augment] ? 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-hero-augment/' + heroAugments.data[augment].image.full : 'http://ddragon.leagueoflegends.com/cdn/13.6.1/img/tft-augment/' + augments?.data[augment].image.full;
-                    return(<AugmentIcon key={index} name={heroAugments?.data[augment] ? heroAugments.data[augment].name  : (augments?.data[augment].name ?? "")} url={img}/>)
+                    if( heroAugments?.data[augment] || augments?.data[augment]){
+                      const img = heroAugments?.data[augment] ? 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-hero-augment/' + heroAugments.data[augment].image.full : 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-augment/' + augments?.data[augment].image.full;
+                      return(<AugmentIcon key={index} name={heroAugments?.data[augment] ? heroAugments.data[augment].name  : (augments?.data[augment].name ?? "")} url={img}/>)
+                    } else return null
                   }) : ""}
                 </div>
               </td>

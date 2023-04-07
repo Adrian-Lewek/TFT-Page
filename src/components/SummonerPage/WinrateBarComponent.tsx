@@ -1,3 +1,5 @@
+// component for getting progress bar 
+
 interface Props {
   width: string;
 }

@@ -1,3 +1,4 @@
+//component to show Trait icon (mainly in summoner page)
 import { useState } from "react";
 import ShowInformations from "./ShowInformations";
 

@@ -19,9 +19,10 @@ const Leaderboard: FunctionComponent<iProps> = () => {
   const navigate = useNavigate()
   const [regionLeaderboard, setRegionLeaderboard] = useState("eun1")
   let sortedLeaderboard;
+  //sorting leaderboard based on lp
   if(data?.entries.length)
     sortedLeaderboard = data?.entries.sort((a,b)=> b.leaguePoints - a.leaguePoints).slice(0, 30);
-
+  //fetching leadeboard 
   useEffect(() => {
     setLoading(true)
     fetch(HOST + 'leaderboard/'+ regionLeaderboard)
@@ -41,10 +42,10 @@ const Leaderboard: FunctionComponent<iProps> = () => {
     })
     // eslint-disable-next-line
   }, [regionLeaderboard])
-
   function handleSummonerClick(name:string){
     navigate('profile/' + regionLeaderboard + '/' + name)
   }
+  //changing region
   function handleregionClick(region: string){
     if(regionLeaderboard !== region){
       setRegionLeaderboard(region)

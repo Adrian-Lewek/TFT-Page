@@ -1,3 +1,4 @@
+//component for showing information when u hover champion / trait / augment etc.
 interface Props {
   name: string
 }

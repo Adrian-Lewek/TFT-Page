@@ -16,6 +16,7 @@ function SummonerPage() {
   const {profile, region} = useParams();
   const [allMatch, setAllMatch] = useState<string[]>([])
   const [fetchCount, setFetchCount] = useState(2);
+  //fetching summoner rank double up and solo
   function fetchSummonerRank(type:string){
     fetch(HOST + 'summoner/rank/'+ region +'/' + type +'/'+ dataUser?.id )
       .then(response => {
@@ -36,6 +37,7 @@ function SummonerPage() {
         setFetchCount(count => count - 1)
       })
   }
+  //changing server to region 
   function getRegionFull(region:string) {
     switch (region) {
       case 'eun1':
@@ -49,6 +51,7 @@ function SummonerPage() {
         return "europe"
     }
   }
+  //counting place based on match history (last 7)
   function countPlace(type: string){
     if(type === "double"){
       if (placesDouble.length > 0){
@@ -62,10 +65,12 @@ function SummonerPage() {
       else return ""
     }
   }
+  //adding place to average place
   function addPlace(place:number, type:string){
     if(type === "solo") setPlacesSolo(prev => [...prev , place]);
     else setPlacesDouble(prev => [...prev , place]);
   }
+  //fetching based info about summoner
   useEffect(() => {
     fetch(HOST + 'summoner/'+ region + '/' + profile)
     .then(response => {
@@ -82,19 +87,18 @@ function SummonerPage() {
     })
     // eslint-disable-next-line
   }, [])
+  //fetching summoner match history List
   useEffect(() => {
-
-    if(dataUser?.puuid !== undefined && allMatch.length === 0 && fetchCount === 0){
-      const countMatches = (dataRankSolo?.wins ? dataRankSolo.wins : 0) + (dataRankSolo?.losses ? dataRankSolo.losses : 0) + (dataRankDouble?.wins ? dataRankDouble.wins : 0) + (dataRankDouble?.losses ? dataRankDouble.losses : 0)
+    if(dataUser?.puuid !== undefined && allMatch.length === 0){
       const regionFull = getRegionFull(region ?? "eun1")
-      fetch(HOST + 'summoner/match/' + regionFull + '/'+ dataUser?.puuid+'/'+countMatches)
+      const matches= 20;
+      fetch(HOST + 'summoner/match/' + regionFull + '/'+ dataUser?.puuid+'/'+ matches)
       .then(response => {
         if (response.ok) return response.json();
         throw response;
       })
       .then(data => {
         setAllMatch(data);
-        
       })
       .catch(error => {
         setError(true)
@@ -102,7 +106,8 @@ function SummonerPage() {
       .finally(() => setLoading(false))
     }
     
-  }, [fetchCount])
+  }, [dataUser])
+  //fetching both rank info solo and double up
   useEffect(() => {
     if(dataUser?.id !== undefined) {
       fetchSummonerRank("solo")
@@ -110,6 +115,7 @@ function SummonerPage() {
     }
     // eslint-disable-next-line
   }, [dataUser])
+  //counting summoner winrate
   function getWinrate(win:number | undefined, loss:number | undefined){
     const wins = win ? win: 0
     const losses = loss ? loss: 0;
@@ -119,7 +125,6 @@ function SummonerPage() {
   }
   const doubleWinrate = getWinrate(dataRankDouble?.wins, dataRankDouble?.losses) + '%';
   const soloWinrate = getWinrate(dataRankSolo?.wins, dataRankSolo?.losses) + '%';
-  
   return (
     <>
       <div className="profileContainer_banner">

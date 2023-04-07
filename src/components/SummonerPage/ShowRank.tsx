@@ -1,3 +1,4 @@
+//component for show current summoner rank
 import { FunctionComponent} from 'react';
 import {IDataSummonerRank} from '../../interfaces/index'
 type iProps = {

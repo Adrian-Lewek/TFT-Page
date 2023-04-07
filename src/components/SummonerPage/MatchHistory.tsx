@@ -1,3 +1,4 @@
+//component to match history container
 import { useEffect, useState } from "react";
 import Match from "./Match";
 import { IFiles, ILittleLegendsImages } from "../../interfaces";
@@ -17,6 +18,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid, setPlaces}) => {
   const [items, setItems] = useState<IFiles>()
   const [loading, setLoading] = useState(true)
   const [version, setVersion] = useState()
+  //fetching lastest version of api
   useEffect(() => {
     fetch('https://ddragon.leagueoflegends.com/api/versions.json')
     .then(response => {
@@ -54,7 +56,6 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid, setPlaces}) => {
       console.log(error);
     })
   }, [])
-  
   return (
     <>
       { loading ? <div className="loader"/> : 

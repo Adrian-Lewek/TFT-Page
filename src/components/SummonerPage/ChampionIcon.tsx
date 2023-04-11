@@ -58,7 +58,7 @@ const ChampionIcon: React.FC<Props> = ({tier, rarity, items, version, championId
         {getStars()}
       </div>
       <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="championContainer_images" style={{borderColor: getRarityColor()}}>
-        <Link to={"/database/" + version + "/" + championId}>
+        <Link to={"/database/" + version + "/champions/" + championId}>
         <img src={ 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-champion/' + championsInfo?.data[championId].image.full} alt="" />
         {showInfo ? <ShowInformations name={name}/> : ""}
         </Link>

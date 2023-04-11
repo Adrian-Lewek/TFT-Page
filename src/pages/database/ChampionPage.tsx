@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import {useEffect, useState} from 'react'
 import { IChampion, ILang_EN } from "../../interfaces";
+import ChampionImg from "../../components/Database/ChampionsImg";
 interface IChampionAll {
   ability: {
     desc: string,
@@ -28,13 +29,6 @@ interface IChampionAll {
   icon: string,
   name: string,
   traits: string[]
-}
-interface ITrait{
-  apiname: string,
-  desc: string,
-  effects: {
-    ['keys'] : number
-  }[]
 }
 function ChampionPage(){
   const [dataChampion, setDataChampion] = useState<IChampion>();
@@ -74,24 +68,40 @@ function ChampionPage(){
     })
     .catch(error => console.log(error))
     .finally(() => setLoading(false))
-  }, [])
+  }, [champion])
   useEffect(() => {
     if(dataAll !== undefined){
       setDataChampionAll(dataAll?.setData.find(item => item.champions.find(championInfo => championInfo.apiName === champion) !== undefined)?.champions.find(championInfo => championInfo.apiName === champion))
     }
   }, [dataAll])
   //changing description with variable to normal text
+  //fnv.fast1a32hex(string)
   function changeText(str: string, obj: {name:string, value: number[]}[]){
     const strClean = str.replace(/<br\s*\/?>/g, "\n").replace(/<[^>]*>/g, "").replace(/ %i:[^%]*%/g, "");
-    
     const replacedStr = strClean.replace(/@(\w+)(\*\d+)?@/g, (match, key, multiplier) => {
       const objMatch = obj.find(objItem => objItem.name === key);
       const value = objMatch ? objMatch.value[1] : 0;
       return multiplier ? (Math.round(value*100)/100 * multiplier.slice(1)).toString() : ((Math.round(value*100)/100).toString() === "0" ? "" : Math.round(value*100)/100).toString();
     });
-
-    return(replacedStr.split('\n'));
+    return(replacedStr.replace(/@[^@]*@/g, "").split('\n'));
   }
+  //format trait description to normal text
+  // function traitDescription(str:string, variables: {[key: string]: number} | undefined){
+  //   const firstIndex =  str.indexOf("(@MinUnits@)");
+  //   const firstClear = firstIndex !== -1 ? str.substring(0, firstIndex) : str;
+  //   const strClean = firstClear.replace(/<br\s*\/?>/g, "\n").replace(/<[^>]*>/g, "").replace(/ %i:[^%]*%/g, "");
+  //   let newStr = "";
+  //   if (variables !== undefined){
+  //     newStr = strClean.replace(/@\w+@/g, match => {
+  //       const fnv_1a = fnv.fast1a32hex(match.split("@")[1].toLowerCase())
+  //       const test = Object.keys(variables).find(key => {
+  //         return `{${fnv_1a}}` === key
+  //       })
+  //       return(test ? variables[test].toString() : "")
+  //     }).replace("null", "0");
+  //   }
+  //   return (newStr.split('\n'))
+  // }
   return (
     <div className="championDatabase">
       {loading || dataAll === undefined ? <div className="loader"/> : 
@@ -140,14 +150,21 @@ function ChampionPage(){
             </div>
             <div className="championDatabase_container_rightSide_traitsContainer">
               {dataChampionAll?.traits.map((trait, index) => {
-                const traitsInfo = dataAll.setData.find(item => item.traits.find(traits => traits.name === trait))?.traits.find(traits => traits.name === trait)
+                const infoAll = Object.values(dataAll.sets).find(item => item.traits.find(traits => traits.name === trait));
+                const traitsInfo = infoAll?.traits.find(traits => traits.name === trait)
+                const similarChampTrait = infoAll?.champions.filter(champ => champ.traits.find(item => item === trait && champ.apiName !== dataChampion.id)).sort((a,b) => a.cost - b.cost)
                 return ( 
-                <div key={index} className="championDatabase_container_rightSide_traitsContainer_trait">
+                <div key={index}>
+                <div className="championDatabase_container_rightSide_traitsContainer_trait">
                   <div className="championDatabase_container_rightSide_traitsContainer_trait_img">
                     <img src={"https://raw.communitydragon.org/latest/game/" + traitsInfo?.icon.replace(".tex", ".png").toLowerCase()} alt="" />
                   </div>
-                  <div className="championDatabase_container_rightSide_traitsContainer_trait_desc">{changeText(traitsInfo?.desc?? "", traitsInfo?.effects[0] ? [] : [])}</div>
+                  <div className="championDatabase_container_rightSide_traitsContainer_trait_title">{traitsInfo?.name}</div>
                 </div> 
+                <div className="championDatabase_container_rightSide_traitsContainer_trait_champions">
+                  {similarChampTrait?.map((champ, champIndex) => <ChampionImg champLink={"/database/" + version + "/champions/" + champ.apiName} rarity={champ.cost} setColor={getRarityColor} key={champIndex} name={champ.name} img={champ.icon}/>)}
+                </div>
+                </div>
                 )
               })}
             </div>
@@ -156,7 +173,6 @@ function ChampionPage(){
         </>
         : "There is no champion with such id or such version"
         }
-        
         </>
       }
     </div>

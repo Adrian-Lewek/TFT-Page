@@ -15,7 +15,6 @@ function SummonerPage() {
   const [placesDouble, setPlacesDouble] = useState<number[]>([])
   const {profile, region} = useParams();
   const [allMatch, setAllMatch] = useState<string[]>([])
-  const [fetchCount, setFetchCount] = useState(2);
   //fetching summoner rank double up and solo
   function fetchSummonerRank(type:string){
     fetch(HOST + 'summoner/rank/'+ region +'/' + type +'/'+ dataUser?.id )
@@ -30,11 +29,6 @@ function SummonerPage() {
       .catch(error => {
         console.log("Error fetching data: ", error);
         setError(true)
-        setFetchCount(count => count - 1)
-      })
-      .finally(() => {
-        
-        setFetchCount(count => count - 1)
       })
   }
   //changing server to region 
@@ -127,9 +121,9 @@ function SummonerPage() {
   const soloWinrate = getWinrate(dataRankSolo?.wins, dataRankSolo?.losses) + '%';
   return (
     <>
-      <div className="profileContainer_banner">
+      <div className="banner">
         <img src="https://i.pinimg.com/originals/bf/f2/49/bff2497c130e8149d59fc7aed62f175d.png" alt="tft banner" />
-        <div className="profileContainer_banner_downside"/>
+        <div className="banner_downside"/>
       </div>
       <div className="profileContainer">
         {error? "Wrong username or region" : 

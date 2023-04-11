@@ -33,6 +33,11 @@ export interface ILang_EN {
       name: string
       apiName: string,
       cost: number,
+      desc: string,
+      icon: string,
+      effects: {
+        [key: string]: number 
+      }
       abitlity: {
         desc: string,
         name: string,
@@ -98,10 +103,57 @@ export interface ILang_EN {
         effects: {
           variables: {
            [key: string]: number 
-          }[]
+          }
         }[]
       } []
 }[],
+  sets: {
+    [key:number] : {
+    champions: 
+      {
+        ability: {
+          desc: string,
+          icon: string,
+          name: string,
+          variables: {
+            name: string,
+            value: number[]
+          }[]
+        },
+        stats: {
+          armor: number,
+          attackSpeed: number,
+          critChance: number,
+          critMultiplier: number,
+          damage: number,
+          hp: number,
+          initialMana: number,
+          magicResist: number,
+          mana: number,
+          range: number,
+        }
+        apiName: string,
+        cost: number,
+        icon: string,
+        name: string,
+        traits: string[]
+      } []
+    ,
+    name: string,
+    traits:
+      {
+        apiName: string,
+        desc: string,
+        icon: string,
+        name: string
+        effects: {
+          variables: {
+           [key: string]: number 
+          }
+        }[]
+      } []
+    }
+  }
 
 }
 //informations about match

@@ -39,3 +39,25 @@ a {
   animation: loading 1.2s ease-in-out infinite;
 }
 
+.banner{
+  width: 100%;
+  position: absolute;
+  height: 220px;
+  z-index: -1;
+  img{
+    width: 100%;
+    height: calc(100% - 20px);
+    position: absolute;
+    z-index: -2;
+    object-fit: cover;
+    filter:blur(7px);
+  }
+  &_downside{
+    height: 20px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: $secondColor;
+  }
+
+}

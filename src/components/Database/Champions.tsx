@@ -30,7 +30,7 @@ const Champions: React.FC<Props> = ({dataInfoAll}) => {
             const champInfoAll = dataInfoAll.setData.find(item => item.champions.find(champs => champs.apiName === champ.id))?.champions.find(champs => champs.apiName === champ.id)
             return (
               <div className="championsContainer_championsList_champion" key={index} >
-              {champInfoAll ? <ChampionImg champLink={"/database/" + version + "/champions/" + champInfoAll.apiName} rarity={champInfoAll.cost} setColor={getRarityColor} name={champInfoAll.name} img={champInfoAll.icon}/> : ""}
+              {champInfoAll ? <ChampionImg version={version} champLink={"/database/" + version + "/champions/" + champInfoAll.apiName} rarity={champInfoAll.cost} setColor={getRarityColor} name={champInfoAll.name} img={champ.image.full}/> : ""}
             </div>
             )
           })

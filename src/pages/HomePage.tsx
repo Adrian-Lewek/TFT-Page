@@ -17,7 +17,8 @@ function HomePage () {
   ]
 
   
-  function handleSummonerInputSubmit(){
+  function handleSummonerInputSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>){
+    e.preventDefault()
     if(searchUsername !== "")
       navigate('profile/' + region + '/' + searchUsername)
   }
@@ -26,6 +27,7 @@ function HomePage () {
       <div className="HomePage_mainBanner">
         <img src="https://i.pinimg.com/originals/bf/f2/49/bff2497c130e8149d59fc7aed62f175d.png" alt="" />
         <div className="HomePage_mainBanner_searchContainer">
+          <form>
           <div className="HomePage_mainBanner_searchContainer_item">
           <Select 
             options={optionRegions}  
@@ -37,12 +39,13 @@ function HomePage () {
             onChange={(e) => setRegion(e?.value)}
           />
           </div>
-          <div className="HomePage_mainBanner_searchContainer_item">
-            <input type="text" name="searchUsername" placeholder="Summoner name..." value={searchUsername} onChange={(e) => setSearchUsername(e.target.value)} />
-          </div>
-          <div className="HomePage_mainBanner_searchContainer_item">
-            <button onClick={()=> handleSummonerInputSubmit()}><FaSearch/></button>
-          </div>
+            <div className="HomePage_mainBanner_searchContainer_item">
+              <input type="text" name="searchUsername" placeholder="Summoner name..." value={searchUsername} onChange={(e) => setSearchUsername(e.target.value)} />
+            </div>
+            <div className="HomePage_mainBanner_searchContainer_item">
+              <button onClick={(e)=> handleSummonerInputSubmit(e)}><FaSearch/></button>
+            </div>
+          </form>
         </div>
       </div>
       <div className="HomePage_laderboardContainer">

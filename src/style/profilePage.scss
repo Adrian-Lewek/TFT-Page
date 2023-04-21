@@ -9,6 +9,66 @@
   .loader{
     margin: 200px;
   }
+  .matchLoader{
+    width: 1100px;
+    height: 120px;
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    border-left: solid 3px $fourthColor;
+    background-color: $firstColor;
+    align-items: center;
+    &_item{
+      background-color: $fourthColor;
+    }
+    &_rankInfo{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      width: 90px;
+      &_item{
+        height: 30px;
+      }
+    }
+    &_profileIcon{
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: $fourthColor;
+    }
+    &_augments{
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      &_item{
+        width: 30px;
+        height: 30px;
+      }
+    }
+    &_champions{
+      display: flex;
+      gap: 10px;
+      &_item{
+        width: 50px;
+        height: 50px;
+      }
+    }
+    &_traits{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 3px;
+      width: 150px;
+      &_item{
+        padding: 2px;
+        background-color: $fourthColor;
+        width: 35px;
+        height: 35px;
+        clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+
+      }
+    }
+  }
   .summonerInfo{
     padding: 10px 0 13px;
     display: flex;
@@ -118,6 +178,7 @@
       }
     }
   }
+
   .matchHistory{
     width: 1100px;
     &_container{
@@ -134,6 +195,7 @@
         border-left: 3px solid;
         gap: 25px;
         align-items: center;
+        
         &_info{
           display: flex;
           flex-direction: column;
@@ -167,6 +229,7 @@
           &_item{
             position: relative;
             cursor: pointer;
+            width: 30px;
             height: 30px;
             border: solid 2px $secondColor;
             img{
@@ -179,6 +242,7 @@
           gap: 12px;
           width: 550px;
           flex-wrap: wrap;
+          
           .championContainer{
             position: relative;
             cursor: pointer;
@@ -186,6 +250,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            &:nth-child(n+10){
+              display: none;
+            }
             &_stars{
               display: flex;
               justify-content: center;
@@ -200,7 +267,7 @@
             }
             &_images{
               height: 50px;
-              width: 50px;
+              width: 100%;
               display: flex;
               justify-content: center;
               margin: 0;
@@ -208,6 +275,7 @@
               border-radius: 5px;
               img{
                 height: 100%;
+                border-radius: 3px;
                 width: 100%;
                 object-fit:cover;
                 object-position: 100%;
@@ -230,7 +298,6 @@
         }
         &_traits{
           display: flex;
-          
           flex-wrap: wrap;
           gap: 7px 3px;
           width: 150px;
@@ -390,7 +457,7 @@
 .showInformations {
   position: absolute;
   display: flex;
-  min-width: 200px;
+  min-width: max-content;
   background-color: #282b2e;
   justify-content: center;
   padding: 5px;
@@ -401,4 +468,97 @@
   border-radius: 15px;
   left: 50%;
   transform: translateX(-50%);
+}
+@media screen and (max-width: 1150px) {
+  .profileContainer{
+    width: auto;
+    &_rank{
+      flex-wrap: wrap;
+    }
+    .matchHistory{
+      width: auto;
+      max-width: 100%;
+      .matchContainer{
+        
+        overflow: auto;
+        justify-content: space-evenly;
+        &_more{
+          display: none;
+        }
+        &_profilePic {
+          display: none;
+        }
+        &_info{
+          width: auto;
+          &_type{
+            display: none;
+          }
+        }
+        &_champions{
+          width: 460px;
+          .championContainer{
+            width: 40px;
+            &_images{
+              height: 40px;
+            }
+            &_items{
+              img{
+                width: 13px;
+                height: 13px;
+              }
+            }
+          }
+        }
+        .matchContainer_traits{
+          width: 100px;
+          &_trait{
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+    }
+  }
+  
+}
+@media screen and (max-width: 520px) {
+  .summonerInfo{
+    flex-direction: column;
+    align-items: center;
+    height: auto !important;
+    
+    &_name{
+      text-align: center;
+    }
+  }
+  .matchHistory{
+    .matchContainer{
+      &_champions{
+        width: 460px;
+        
+        .championContainer{
+          width: 35px !important;
+          &:nth-child(n+9){
+            display: none;
+          }
+          &_images{
+            height: 35px !important;
+          }
+          &_items{
+            img{
+              width: 13px;
+              height: 13px;
+            }
+          }
+        }
+      }
+      .matchContainer_traits{
+        width: 100px;
+        &_trait{
+          width: 25px;
+          height: 25px;
+        }
+      }
+    }
+  }
 }

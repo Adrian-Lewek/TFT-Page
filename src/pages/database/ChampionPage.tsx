@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import {useEffect, useState} from 'react'
-import { IChampion, ILang_EN } from "../../interfaces";
+import { IChampion, IFiles, ILang_EN } from "../../interfaces";
 import ChampionImg from "../../components/Database/ChampionsImg";
 interface IChampionAll {
   ability: {
@@ -32,6 +32,7 @@ interface IChampionAll {
 }
 function ChampionPage(){
   const [dataChampion, setDataChampion] = useState<IChampion>();
+  const [allChampions, setAllChampions] = useState<IFiles>();
   const [dataChampionAll, setDataChampionAll] = useState<IChampionAll>()
   const [dataAll, setDataAll] = useState<ILang_EN>()
   const [loading, setLoading] = useState(false);
@@ -64,6 +65,7 @@ function ChampionPage(){
     .then(responses => Promise.all(responses.map(response => response.json())))
     .then(data => {
       setDataChampion(data[0].data[champion ?? ""] ?? undefined);
+      setAllChampions(data[0])
       setDataAll(data[1]);
     })
     .catch(error => console.log(error))
@@ -74,8 +76,6 @@ function ChampionPage(){
       setDataChampionAll(dataAll?.setData.find(item => item.champions.find(championInfo => championInfo.apiName === champion) !== undefined)?.champions.find(championInfo => championInfo.apiName === champion))
     }
   }, [dataAll])
-  //changing description with variable to normal text
-  //fnv.fast1a32hex(string)
   function changeText(str: string, obj: {name:string, value: number[]}[]){
     const strClean = str.replace(/<br\s*\/?>/g, "\n").replace(/<[^>]*>/g, "").replace(/ %i:[^%]*%/g, "");
     const replacedStr = strClean.replace(/@(\w+)(\*\d+)?@/g, (match, key, multiplier) => {
@@ -85,96 +85,102 @@ function ChampionPage(){
     });
     return(replacedStr.replace(/@[^@]*@/g, "").split('\n'));
   }
-  //format trait description to normal text
-  // function traitDescription(str:string, variables: {[key: string]: number} | undefined){
-  //   const firstIndex =  str.indexOf("(@MinUnits@)");
-  //   const firstClear = firstIndex !== -1 ? str.substring(0, firstIndex) : str;
-  //   const strClean = firstClear.replace(/<br\s*\/?>/g, "\n").replace(/<[^>]*>/g, "").replace(/ %i:[^%]*%/g, "");
-  //   let newStr = "";
-  //   if (variables !== undefined){
-  //     newStr = strClean.replace(/@\w+@/g, match => {
-  //       const fnv_1a = fnv.fast1a32hex(match.split("@")[1].toLowerCase())
-  //       const test = Object.keys(variables).find(key => {
-  //         return `{${fnv_1a}}` === key
-  //       })
-  //       return(test ? variables[test].toString() : "")
-  //     }).replace("null", "0");
-  //   }
-  //   return (newStr.split('\n'))
-  // }
   return (
     <div className="championDatabase">
-      {loading || dataAll === undefined ? <div className="loader"/> : 
+      <div className="championDatabase_banner">
+        <img src={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-champion/' + dataChampion?.image.full} alt="" />
+        <div className="championDatabase_banner_downside"></div>
+      </div>
+      <div className="championDatabase_container">
+      {!loading && dataAll !== undefined?
+      <>
+        {dataChampion === undefined ? "there is no such champion with this nickname" : 
         <>
-        {dataChampion !== undefined ?
-        <>
-        <div className="championDatabase_banner">
-          <img src={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-champion/' + dataChampion?.image.full} alt="" />
-          <div className="championDatabase_banner_downside"></div>
-        </div>
-        <div className="championDatabase_container">
-          <div className="championDatabase_container_leftSide">
+        <div className="championDatabase_container_leftSide">
+          <div className="championDatabase_container_leftSide_cont">
             <div className="championDatabase_container_leftSide_icon" style={{borderColor: getRarityColor(dataChampion.tier)}} >
               <img src={ 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-champion/' + dataChampion?.image.full} alt="" />
             </div>
             <div className="championDatabase_container_leftSide_name">
               TFT {dataChampion.name}
             </div>
-            <div className="championDatabase_container_leftSide_stats">
-              <div className="championDatabase_container_leftSide_stats_title"> Stats</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Cost:</p> {dataChampionAll?.cost}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Damage:</p> {dataChampionAll?.stats.damage}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Health:</p> {dataChampionAll?.stats.hp}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Armor:</p> {dataChampionAll?.stats.armor}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Magic Resist:</p> {dataChampionAll?.stats.magicResist}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Mana:</p> {dataChampionAll?.stats.initialMana + "/" + dataChampionAll?.stats.mana}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Attack Speed:</p> {dataChampionAll ? Math.floor(dataChampionAll.stats.attackSpeed * 100) /100 : 0}</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Crit Chance:</p> {dataChampionAll ? dataChampionAll.stats.critChance * 100 : 0}%</div>
-              <div className="championDatabase_container_leftSide_stats_item"><p>Range:</p> {dataChampionAll?.stats.range}</div>
-            </div>
           </div>
-          <div className="championDatabase_container_rightSide">
-            <div className="championDatabase_container_rightSide_title">
-              Ability Description
-            </div>
-            <div className="championDatabase_container_rightSide_abilityContainer">
-              <div className="championDatabase_container_rightSide_abilityContainer_img"><img src={"https://raw.communitydragon.org/latest/game/" + dataChampionAll?.ability.icon.replace('.dds', '.png').toLocaleLowerCase() } alt="" /></div>
-              <div className="championDatabase_container_rightSide_abilityContainer_desc">
-                {changeText(dataChampionAll?.ability.desc ?? "", dataChampionAll?.ability.variables ?? []).map((item, index)=>{
-                  return (<div key={index}>{item} <br/></div>)
-                })}
-              </div>
-            </div>
-            <div className="championDatabase_container_rightSide_title">
-              Traits
-            </div>
-            <div className="championDatabase_container_rightSide_traitsContainer">
-              {dataChampionAll?.traits.map((trait, index) => {
-                const infoAll = Object.values(dataAll.sets).find(item => item.traits.find(traits => traits.name === trait));
-                const traitsInfo = infoAll?.traits.find(traits => traits.name === trait)
-                const similarChampTrait = infoAll?.champions.filter(champ => champ.traits.find(item => item === trait && champ.apiName !== dataChampion.id)).sort((a,b) => a.cost - b.cost)
-                return ( 
-                <div key={index}>
-                <div className="championDatabase_container_rightSide_traitsContainer_trait">
-                  <div className="championDatabase_container_rightSide_traitsContainer_trait_img">
-                    <img src={"https://raw.communitydragon.org/latest/game/" + traitsInfo?.icon.replace(".tex", ".png").toLowerCase()} alt="" />
-                  </div>
-                  <div className="championDatabase_container_rightSide_traitsContainer_trait_title">{traitsInfo?.name}</div>
-                </div> 
-                <div className="championDatabase_container_rightSide_traitsContainer_trait_champions">
-                  {similarChampTrait?.map((champ, champIndex) => <ChampionImg champLink={"/database/" + version + "/champions/" + champ.apiName} rarity={champ.cost} setColor={getRarityColor} key={champIndex} name={champ.name} img={champ.icon}/>)}
-                </div>
-                </div>
-                )
+          <div className="championDatabase_container_leftSide_stats">
+            <div className="championDatabase_container_leftSide_stats_title"> Stats</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Cost:</p> {dataChampionAll?.cost}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Damage:</p> {dataChampionAll?.stats.damage}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Health:</p> {dataChampionAll?.stats.hp}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Armor:</p> {dataChampionAll?.stats.armor}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Magic Resist:</p> {dataChampionAll?.stats.magicResist}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Mana:</p> {dataChampionAll?.stats.initialMana + "/" + dataChampionAll?.stats.mana}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Attack Speed:</p> {dataChampionAll ? Math.floor(dataChampionAll.stats.attackSpeed * 100) /100 : 0}</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Crit Chance:</p> {dataChampionAll ? dataChampionAll.stats.critChance * 100 : 0}%</div>
+            <div className="championDatabase_container_leftSide_stats_item"><p>Range:</p> {dataChampionAll?.stats.range}</div>
+          </div>
+        </div>
+        <div className="championDatabase_container_rightSide">
+          <div className="championDatabase_container_rightSide_title">
+            Ability Description
+          </div>
+          <div className="championDatabase_container_rightSide_abilityContainer">
+            <div className="championDatabase_container_rightSide_abilityContainer_img"><img src={"https://raw.communitydragon.org/latest/game/" + dataChampionAll?.ability.icon.replace('.dds', '.png').toLocaleLowerCase() } alt="" /></div>
+            <div className="championDatabase_container_rightSide_abilityContainer_desc">
+              {changeText(dataChampionAll?.ability.desc ?? "", dataChampionAll?.ability.variables ?? []).map((item, index)=>{
+                return (<div key={index}>{item} <br/></div>)
               })}
             </div>
           </div>
+          <div className="championDatabase_container_rightSide_title">
+            Traits
+          </div>
+          <div className="championDatabase_container_rightSide_traitsContainer">
+            {dataChampionAll?.traits.map((trait, index) => {
+              const infoAll = Object.values(dataAll.sets).find(item => item.traits.find(traits => traits.name === trait));
+              const traitsInfo = infoAll?.traits.find(traits => traits.name === trait)
+              const similarChampTrait = infoAll?.champions.filter(champ => champ.traits.find(item => item === trait && champ.apiName !== dataChampion.id)).sort((a,b) => a.cost - b.cost)
+              return ( 
+              <div key={index}>
+              <div className="championDatabase_container_rightSide_traitsContainer_trait">
+                <div className="championDatabase_container_rightSide_traitsContainer_trait_img">
+                  <img src={"https://raw.communitydragon.org/latest/game/" + traitsInfo?.icon.replace(".tex", ".png").toLowerCase()} alt="" />
+                </div>
+                <div className="championDatabase_container_rightSide_traitsContainer_trait_title">{traitsInfo?.name}</div>
+              </div> 
+              <div className="championDatabase_container_rightSide_traitsContainer_trait_champions">
+                {similarChampTrait?.map((champ, champIndex) => {
+                  return (<ChampionImg version={version} champLink={"/database/" + version + "/champions/" + champ.apiName} rarity={champ.cost} setColor={getRarityColor} key={champIndex} name={champ.name} img={allChampions?.data[champ.apiName].image.full ?? ""}/>)})
+                }
+                </div>
+              </div>
+              )
+            })}
+            </div>
+          </div>
+        </>}
+        </>
+        : 
+        <>
+        <div className="championLoader_leftSide">
+          <div className="championLoader_leftSide_loaderIcon"></div>
+          <div className="championLoader_leftSide_stats">
+            <div className="championLoader_leftSide_stats_item" style={{width: '95%'}}></div>
+            <div className="championLoader_leftSide_stats_item" style={{width: '70%'}}></div>
+            <div className="championLoader_leftSide_stats_item" style={{width: '80%'}}></div>
+            <div className="championLoader_leftSide_stats_item" style={{width: '50%'}}></div>
+            <div className="championLoader_leftSide_stats_item" style={{width: '60%'}}></div>
+            <div className="championLoader_leftSide_stats_item" style={{width: '90%'}}></div>
+          </div>
+        </div>
+        <div className="championLoader_rightSide">
+          <div className="championLoader_rightSide_item" style={{width: '100%'}}></div>
+          <div className="championLoader_rightSide_item" style={{width: '100%'}}></div>
+          <div className="championLoader_rightSide_item" style={{width: '100%'}}></div>
+          <div className="championLoader_rightSide_item" style={{width: '100%'}}></div>
+          <div className="championLoader_rightSide_item" style={{width: '60%'}}></div>
         </div>
         </>
-        : "There is no champion with such id or such version"
-        }
-        </>
       }
+      </div>
     </div>
   )
 }

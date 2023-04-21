@@ -107,7 +107,36 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
   },[])
     return (
     <>
-    { loading ? <div>loading</div> : 
+    { loading ? 
+    <div className='matchLoader'>
+      <div className="matchLoader_rankInfo">
+        <div className="matchLoader_rankInfo_item matchLoader_item" style={{width: '30px'}}></div>
+        <div className="matchLoader_rankInfo_item matchLoader_item" style={{width: '100%'}}></div>
+      </div>
+      <div className="matchLoader_profileIcon"></div>
+      <div className="matchLoader_augments">
+        <div className="matchLoader_augments_item matchLoader_item"></div>
+        <div className="matchLoader_augments_item matchLoader_item"></div>
+        <div className="matchLoader_augments_item matchLoader_item"></div>
+      </div>
+      <div className="matchLoader_champions">
+        <div className="matchLoader_champions_item matchLoader_item" ></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+        <div className="matchLoader_champions_item matchLoader_item"></div>
+      </div>
+      <div className="matchLoader_traits">
+        <div className="matchLoader_traits_item matchLoader_item"></div>
+        <div className="matchLoader_traits_item matchLoader_item"></div>
+        <div className="matchLoader_traits_item matchLoader_item"></div>
+        <div className="matchLoader_traits_item matchLoader_item"></div>
+      </div>
+    </div> : 
     <div className="match">
       <div className="matchContainer" style={{borderLeftColor: (data?.info.tft_game_type === "pairs" ? getColorRank(getDoubleUpPlacement(summonerMatchInfo?.placement ?? 0), data?.info.tft_game_type) : getColorRank(summonerMatchInfo?.placement ?? 0, data?.info.tft_game_type ?? ""))}}>
         <div className="matchContainer_info" >

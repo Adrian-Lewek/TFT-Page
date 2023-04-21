@@ -147,6 +147,9 @@ export interface ILang_EN {
         icon: string,
         name: string
         effects: {
+          maxUnits: number,
+          minUnits: number,
+          style:number
           variables: {
            [key: string]: number 
           }

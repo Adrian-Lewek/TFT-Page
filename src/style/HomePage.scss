@@ -17,7 +17,7 @@
       z-index: -1;
     }
     &_searchContainer{
-      display: flex;
+      form {display: flex}
       &_item{
         input, button, select{
           height: 50px;
@@ -208,5 +208,94 @@
         
       }
     }
+  }
+}
+@media screen and (max-width: 1120px) {
+  .HomePage_laderboardContainer{
+    width: 100%;
+    padding: 20px;
+    &_titlebar{
+      width: 100%;
+    }
+    table{
+      width: 100%;
+    }
+  }
+}
+@media screen and (max-width: 700px) {
+  .HomePage_mainBanner{
+    height: 300px;
+  }
+  .LaderboardContainer_item_tier{
+    display: none;
+  }
+}
+@media screen and (max-width: 600px) {
+  .HomePage_mainBanner{
+    height: 250px;
+  }
+  .HomePage_mainBanner_searchContainer_item{
+    input{width: 270px;}
+    font-size: 0.85em;
+  }
+  td, tr{
+    font-size: 0.8em;
+  }
+}
+@media screen and (max-width: 490px) {
+  .HomePage_mainBanner{
+    height: 220px;
+  }
+  .HomePage_mainBanner_searchContainer_item{
+    font-size: 0.85em;
+    input{
+      width: 160px;
+    }
+    button{
+      width: 45px;
+    }
+    input, button, .react-select__control, .react-select__value-container, .react-select__input-container{
+      height: 40px !important; 
+    }
+    .react-select__control{
+      width: 95px !important;
+    }
+  }
+  .HomePage_laderboardContainer{
+    padding: 10px;
+    &_titlebar{
+      height: 150px;
+    
+      &_descContainer_desc{
+        p:nth-child(1){
+          font-size: 0.95em;
+          margin: 0;
+        }
+        p:nth-child(2){
+          font-size: 0.75em;
+          margin: 0;
+          color: $sixthColor;
+        }
+      }
+      &_descContainer_img{
+        width: 80px;
+        img{
+          height: 150px;
+        }
+      }
+      &_navigation_item{
+        font-size: 0.8em;
+        height: 40px;
+      }
+    }
+  }
+  
+}
+@media screen and (max-width: 380px) {
+  .LaderboardContainer_item_losses{
+    display: none;
+  }
+  .LaderboardContainer_item_wins{
+    display: none;
   }
 }

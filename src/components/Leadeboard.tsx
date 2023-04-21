@@ -74,13 +74,13 @@ const Leaderboard: FunctionComponent<iProps> = () => {
       <table>
         <thead>
           <tr className='LaderboardContainer_Header'>
-            <th>Rank</th>
-            <th>Summoner</th>
-            <th>Wins</th>
-            <th>Losses</th>
-            <th>Win %</th>
-            <th>Tier</th>
-            <th>Lp</th>
+            <th className='LaderboardContainer_item_rank'>Rank</th>
+            <th className='LaderboardContainer_item_summoner'>Summoner</th>
+            <th className='LaderboardContainer_item_wins'>Wins</th>
+            <th className='LaderboardContainer_item_losses'>Losses</th>
+            <th className='LaderboardContainer_item_winper'>Win %</th>
+            <th className='LaderboardContainer_item_tier'>Tier</th>
+            <th className='LaderboardContainer_item_lp'>Lp</th>
           </tr>
           </thead>
         <tbody>
@@ -88,13 +88,13 @@ const Leaderboard: FunctionComponent<iProps> = () => {
             let winPercent = Math.floor(summoner.wins / (summoner.wins + summoner.losses) *100)
             return(
               <tr key={index}>
-                <td>{index + 1}</td>
-                <td onClick={() => handleSummonerClick(summoner.summonerName)}>{summoner.summonerName}</td>
-                <td>{summoner.wins}</td>
-                <td>{summoner.losses}</td>
-                <td>{winPercent}%</td>
-                <td>Challenger</td>
-                <td>{summoner.leaguePoints}</td>
+                <td className='LaderboardContainer_item_rank'>{index + 1}</td>
+                <td className='LaderboardContainer_item_summoner' onClick={() => handleSummonerClick(summoner.summonerName)}>{summoner.summonerName}</td>
+                <td className='LaderboardContainer_item_wins'>{summoner.wins}</td>
+                <td className='LaderboardContainer_item_losses'>{summoner.losses}</td>
+                <td className='LaderboardContainer_item_winper'>{winPercent}%</td>
+                <td className='LaderboardContainer_item_tier'>Challenger</td>
+                <td className='LaderboardContainer_item_lp'>{summoner.leaguePoints}</td>
               </tr>
             )
           })}

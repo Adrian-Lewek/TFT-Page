@@ -49,14 +49,14 @@ function SummonerPage() {
   function countPlace(type: string){
     if(type === "double"){
       if (placesDouble.length > 0){
-        return (Math.floor((placesDouble.reduce((acc, curr) => acc + curr) / placesDouble.length)*10)/10).toString();
+        return (Math.floor((placesDouble.reduce((acc, curr) => acc + curr) / placesDouble.length)*10)/10);
       }
       else return 0
     } else{
       if (placesSolo.length > 0){
-        return (Math.floor((placesSolo.reduce((acc, curr) => acc + curr) / placesSolo.length)*10)/10).toString();
+        return (Math.floor((placesSolo.reduce((acc, curr) => acc + curr) / placesSolo.length)*10)/10);
       }
-      else return ""
+      else return 0
     }
   }
   //adding place to average place
@@ -130,7 +130,7 @@ function SummonerPage() {
         loading? <div className='loader'/> :
         <>
           <div className="summonerInfo">
-            <SummonerInfoStats placeSolo={countPlace("solo").toString()} placeDouble={countPlace("double").toString()} profileIconId={dataUser?.profileIconId} soloWinrate={soloWinrate} doubleWinrate={doubleWinrate} name={dataUser?.name} />
+            <SummonerInfoStats placeSolo={countPlace("solo")} placeDouble={countPlace("double")} profileIconId={dataUser?.profileIconId} soloWinrate={soloWinrate} doubleWinrate={doubleWinrate} name={dataUser?.name} />
           </div>
           <div className="profileContainer_rank">
             <ShowRank type="solo" DataRank={dataRankSolo}/>

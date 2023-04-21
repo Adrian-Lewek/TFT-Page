@@ -2,11 +2,10 @@ import Champions from "../../components/Database/Champions";
 import { useEffect, useState } from "react";
 import Augments from "../../components/Database/Augments";
 import { ILang_EN } from "../../interfaces";
+import Traits from "../../components/Database/Traits";
+import Items from "../../components/Database/Item";
 
-interface Props {
-}
-
-const Database: React.FC<Props> = () => {
+const Database: React.FC = () => {
   const [currentComponent, setCurrentComponent] = useState<JSX.Element>()
   const [activeNavItem, setActiveNavItem] = useState("champions")
   const [data, setData] = useState<ILang_EN>()
@@ -41,7 +40,7 @@ const Database: React.FC<Props> = () => {
           </div>
           <div className={"database_container_navbar_item " + (activeNavItem === "champions" ? "active" : "")} onClick={() => handleChangeList(<Champions dataInfoAll={data}/>, "champions") }>Champions</div>
           <div className={"database_container_navbar_item " + (activeNavItem === "augments" ? "active" : "")} onClick={() => handleChangeList(<Augments dataInfoAll={data}/>, "augments") }>Augments</div>
-          <div className={"database_container_navbar_item " + (activeNavItem === "traits" ? "active" : "")} onClick={() => handleChangeList(<Augments dataInfoAll={data}/>, "traits") }>Traits</div>
+          <div className={"database_container_navbar_item " + (activeNavItem === "traits" ? "active" : "")} onClick={() => handleChangeList(<Traits dataInfoAll={data}/>, "traits") }>Traits</div>
         </div>
         <div className="database_container_leftSide">
           {currentComponent}

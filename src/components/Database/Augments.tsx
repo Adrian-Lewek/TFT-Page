@@ -6,7 +6,7 @@ import fnv from "fnv-plus";
 interface Props {
   dataInfoAll: ILang_EN;
 }
-interface IChamps {
+interface IAugments {
   id: string, 
   image: { full: string},
   name:string, 
@@ -14,8 +14,8 @@ interface IChamps {
 }
 
 const Augments: React.FC<Props> = ({dataInfoAll}) => {
-  const [augments, setAugment] = useState<IChamps[]>()
-  const [heroAugments, setHeroAugments] = useState<IChamps[]>()
+  const [augments, setAugment] = useState<IAugments[]>()
+  const [heroAugments, setHeroAugments] = useState<IAugments[]>()
   const [currentAugmentType, setCurrentAugmentType] = useState("hero")
   const [loading, setLoading] = useState(true)
   const {version} = useParams()
@@ -40,13 +40,12 @@ const Augments: React.FC<Props> = ({dataInfoAll}) => {
         }
         const fnv_1a = fnv.fast1a32hex(value.toLowerCase())
         if (variables[`{${fnv_1a}}`] !== undefined) return variables[`{${fnv_1a}}`].toString()
-        //console.log(match)
         return ("0")
       })
     }
     return newStr
   }
-  const augmentsList = () =>(currentAugmentType === "hero" ? heroAugments : augments)?.map((augment, index) => {
+  const augmentsList = () =>(currentAugmentType === "hero" ? heroAugments : augments)?.map(augment => {
     const augmentInfoAll = dataInfoAll.items.find(item => item.apiName === augment.id)
     const desc = descTransform(augmentInfoAll?.desc ?? "", augmentInfoAll?.effects);
     return (
@@ -54,11 +53,10 @@ const Augments: React.FC<Props> = ({dataInfoAll}) => {
         name: augmentInfoAll?.name,
         desc: desc,
         hero: desc.split(' ')[2],
-        img: 'https://raw.communitydragon.org/latest/game/' + augmentInfoAll?.icon.toLowerCase().replace('dds','png'),
+        img: 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/' + (currentAugmentType === "hero" ? 'tft-hero-augment/' : 'tft-augment/') + augment.image.full
       }
     )
   })
-  console.log(augmentsList())
   // 
   useEffect(() => {
     Promise.all([
@@ -100,7 +98,7 @@ const Augments: React.FC<Props> = ({dataInfoAll}) => {
               <div className="augmentsContainer_augments_container_img">
                 <img src={augment.img} alt="" />
               </div>
-                <div className="augmentsContainer_augments_container_right">
+              <div className="augmentsContainer_augments_container_right">
                 <div className="augmentsContainer_augments_container_title">{augment.name}</div>
                 <div className="augmentsContainer_augments_container_desc">{augment.desc}</div>
               </div>

@@ -1,5 +1,8 @@
 @import "variables";
-
+@keyframes slide {
+  from {height: 0;}
+  to {height: 300px;}
+}
 .NavBar{
   width: 100%;
   height: 60px;
@@ -16,8 +19,8 @@
       transition: 0.3s;
       border-bottom: solid 3px $fifthColor;
     }
+    .navMobileActive{display: none;}
     a{
-      
       text-decoration: none;
       border-bottom: solid 3px transparent;
       color: $thirdColor;
@@ -27,6 +30,10 @@
       font-weight: 700;
       a{
         border: none !important;
+      }
+      &_burger{
+        display: none;
+        cursor: pointer;
       }
     }
     &_menuItems{
@@ -40,6 +47,60 @@
         transition: 0.1s;
         &:hover{
           background-color: $fourthColor;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1150px) {
+  .NavBar{
+    &_container{
+      padding: 0 10px ;
+    }
+  }
+}
+@media screen and (max-width: 600px) {
+  .NavBar{
+    height: auto;
+    &_container{
+      flex-direction: column;
+      padding: 0 10px;
+      &_logo{
+        display: flex;
+        padding: 5px 15px;
+        width: 100%;
+        justify-content: space-between;
+        &_burger{
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.3em;
+        }
+      }
+      &_menuItems{
+        flex-direction: column;
+        align-items: center;
+        padding: 5px 15px;
+        width: 100%;
+        display: none;
+        a{
+          height: 40px;
+          width: 100%;
+          justify-content: center;
+        }
+      }
+      .navMobileActive{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 5px 15px;
+        width: 100%;
+        align-items: center;
+        a{
+          width: 100%;
+          height: 40px;
+          max-width: 250px;
+          text-align: center;
         }
       }
     }

@@ -56,6 +56,7 @@ const ShowAllPlayers: React.FC<Props> = ({match, tacticanInfo, version, champion
                   if( champions?.data[unit.character_id] ) 
                     return (
                     <ChampionIcon 
+                      key={index}
                       version={version}
                       name={champions.data[unit.character_id].name}
                       championsInfo={champions} 
@@ -72,9 +73,11 @@ const ShowAllPlayers: React.FC<Props> = ({match, tacticanInfo, version, champion
               <td className='morePlayerContainer_traits'>
                 <div className="morePlayerContainer_traits_con">
                   {player ? player.traits.filter(trait => trait.tier_current > 0).sort((a,b) => b.style - a.style).map((trait, index) => {
+                    if(traitInfo?.data[trait.name] !== undefined)
                     return(
-                      <TraitIcon name={traitInfo?.data[trait.name]? traitInfo?.data[trait.name].name : "" } key={index} url={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-trait/' + traitInfo?.data[trait.name].image.full} styles={{backgroundColor: getBackgroundColor(trait.style)}}/>
+                      <TraitIcon name={traitInfo?.data[trait.name].name } key={index} url={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-trait/' + traitInfo?.data[trait.name].image.full} styles={{backgroundColor: getBackgroundColor(trait.style)}}/>
                     )
+                    else return null;
                   }) : ""}
                 </div>
               </td>

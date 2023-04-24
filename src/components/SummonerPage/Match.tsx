@@ -40,6 +40,20 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
    return null
   }  
   const summonerMatchInfo = summonerMatch()
+  function getGameType(gameType: string){
+    switch (gameType) {
+      case 'pairs':
+        return "Double Up"
+      case 'standard':
+        return "Ranked Solo"
+      case 'turbo':
+        return "Hyper Roll"
+      case 'lny':
+        return "Event"
+      default:
+        return 'Unknown Type'
+    }
+  }
   //getting color based on match position
   function getColorRank(rank:number, type:string){
     if(type==='pairs'){
@@ -90,20 +104,25 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
   }
   //fetching informations about match
   useEffect(() =>{
-    fetch(HOST + 'match/matchInfo/' + region + '/' + match)
-    .then(response => {
-      if(response.ok) return response.json();
-      throw response;
-    })
-    .then(data => {
-      setData(data);
-      const participant = data.info.participants.find((item: { puuid: string }) => item.puuid === puuid);
-      data?.info.tft_game_type === "pairs" ? setPlaces(getDoubleUpPlacement(participant?.placement ?? 0) , "double") : setPlaces(participant?.placement ?? 0, "solo")
-    })
-    .catch(error => {
-      console.log(error);
-    })
-    .finally(() => setLoading(false));
+    async function fetchData() {
+      try {
+        const response = await fetch(HOST + 'match/matchInfo/' + region + '/' + match);
+        const data = await response.json();
+        if(data.info.game_version.slice(8,10) === version.slice(0,2)){
+          setData(data);
+          const participant = data.info.participants.find((item: { puuid: string }) => item.puuid === puuid);
+          data?.info.tft_game_type === "pairs" ? setPlaces(getDoubleUpPlacement(participant?.placement ?? 0) , "double") : setPlaces(participant?.placement ?? 0, "solo")
+        }
+
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData();
+    
   },[])
     return (
     <>
@@ -137,6 +156,7 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
         <div className="matchLoader_traits_item matchLoader_item"></div>
       </div>
     </div> : 
+    ( data !== undefined ?
     <div className="match">
       <div className="matchContainer" style={{borderLeftColor: (data?.info.tft_game_type === "pairs" ? getColorRank(getDoubleUpPlacement(summonerMatchInfo?.placement ?? 0), data?.info.tft_game_type) : getColorRank(summonerMatchInfo?.placement ?? 0, data?.info.tft_game_type ?? ""))}}>
         <div className="matchContainer_info" >
@@ -144,7 +164,7 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
             #{data?.info.tft_game_type === "pairs" ? getDoubleUpPlacement(summonerMatchInfo?.placement ?? 0) : summonerMatchInfo?.placement}
           </div>
           <div className="matchContainer_info_type">
-            {data?.info.tft_game_type === "pairs" ? "Double Up" : data?.info.tft_game_type === "standard" ? "Ranked Solo" : "Hyper Roll"}
+            {getGameType(data?.info.tft_game_type ?? "")}
             
           </div>
         </div>
@@ -152,12 +172,14 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
           <img src={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-tactician/' + tacticanInfo?.data[summonerMatchInfo?.companion.item_ID ?? 1].image.full} alt="" />
         </div>
         <div className="matchContainer_augments">
-          {summonerMatchInfo?.augments.map((augment, index)=> {
+          {summonerMatchInfo !== undefined && summonerMatchInfo !== null ? summonerMatchInfo?.augments.map((augment, index)=> {
             if (heroAugments?.data[augment] || augments?.data[augment]){
               const img = heroAugments?.data[augment] ? 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-hero-augment/' + heroAugments.data[augment].image.full : (augments?.data[augment] ? 'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-augment/' + augments.data[augment].image.full : "");
               return(<AugmentIcon key={index} name={heroAugments?.data[augment] ? heroAugments.data[augment].name  : (augments?.data[augment] ? augments.data[augment].name : "")} url={img}/>)
             } else return null
-          })}
+          })
+          : ""
+        }
         </div>
         <div className="matchContainer_champions">
           {summonerMatchInfo?.units.sort((a,b)=>{
@@ -183,9 +205,12 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
         </div>
         <div className="matchContainer_traits">
           {summonerMatchInfo ? summonerMatchInfo.traits.filter(trait => trait.tier_current > 0).sort((a,b) => b.style - a.style).map((trait, index) => {
-            return(
-              <TraitIcon name={traitInfo?.data[trait.name]? traitInfo?.data[trait.name].name : "" } key={index} url={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-trait/' + traitInfo?.data[trait.name].image.full} styles={{backgroundColor: getBackgroundColor(trait.style)}}/>
-            )
+            if(traitInfo?.data[trait.name] !== undefined){
+              return(
+                <TraitIcon name={traitInfo?.data[trait.name] !== undefined ? traitInfo?.data[trait.name].name : "" } key={index} url={'https://ddragon.leagueoflegends.com/cdn/' + version + '/img/tft-trait/' + traitInfo?.data[trait.name].image.full} styles={{backgroundColor: getBackgroundColor(trait.style)}}/>
+              )
+            }
+            else return ("")
           }) : ""}
         </div>
         <div className="matchContainer_more">
@@ -210,6 +235,8 @@ const Match: React.FC<Props> = ({match, region, puuid, tacticanInfo, version, au
         ) }
       </div>
     </div>
+    : ""
+    )
   }
   </>
   )

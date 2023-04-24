@@ -127,19 +127,19 @@ function SummonerPage() {
       </div>
       <div className="profileContainer">
         {error? "Wrong username or region" : 
-        loading? <div className='loader'/> :
-        <>
-          <div className="summonerInfo">
-            <SummonerInfoStats placeSolo={countPlace("solo")} placeDouble={countPlace("double")} profileIconId={dataUser?.profileIconId} soloWinrate={soloWinrate} doubleWinrate={doubleWinrate} name={dataUser?.name} />
-          </div>
-          <div className="profileContainer_rank">
-            <ShowRank type="solo" DataRank={dataRankSolo}/>
-            <ShowRank type="double" DataRank={dataRankDouble}/>
-          </div>
-          <div className="matchHistory">
-          <MatchHistory setPlaces={addPlace} puuid={dataUser?.puuid ?? ""} region={getRegionFull(region ?? "eun1") ?? "europe"} match={allMatch} />
-        </div>
-        </>
+          loading? <div className='loader'/> :
+          <>
+            <div className="summonerInfo">
+              <SummonerInfoStats placeSolo={countPlace("solo")} placeDouble={countPlace("double")} profileIconId={dataUser?.profileIconId} soloWinrate={soloWinrate} doubleWinrate={doubleWinrate} name={dataUser?.name} />
+            </div>
+            <div className="profileContainer_rank">
+              <ShowRank type="solo" DataRank={dataRankSolo}/>
+              <ShowRank type="double" DataRank={dataRankDouble}/>
+            </div>
+            <div className="matchHistory">
+              <MatchHistory setPlaces={addPlace} puuid={dataUser?.puuid ?? ""} region={getRegionFull(region ?? "eun1") ?? "europe"} match={allMatch} />
+            </div>
+          </>
         }
       </div>
       

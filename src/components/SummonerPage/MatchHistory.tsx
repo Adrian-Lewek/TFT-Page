@@ -28,7 +28,6 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid, setPlaces}) => {
 
     .then(data => {
       setVersion(data[0])
-
       Promise.all([
         fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-tactician.json"),
         fetch("https://ddragon.leagueoflegends.com/cdn/" + data[0] + "/data/en_US/tft-hero-augments.json"),
@@ -58,7 +57,7 @@ const MatchHistory: React.FC<Props> = ({match, region, puuid, setPlaces}) => {
   }, [])
   return (
     <>
-      { loading ? <div className="loader"/> : 
+      { loading ?  <div className="cont-loader"><div className="loader"></div></div> : 
       <>
       <div className="matchHistory_container">
         {match.slice(0,7).map((item, index )=> <Match setPlaces={setPlaces} version={version ?? '13.6.1'} traitInfo={trait} champions={champions} items={items} augments={augments} heroAugments={heroAugments} tacticanInfo={data} key={index} puuid={puuid} region={region} match={item}/>)}

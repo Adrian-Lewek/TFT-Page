@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import Augments from "../../components/Database/Augments";
 import { ILang_EN } from "../../interfaces";
 import Traits from "../../components/Database/Traits";
-import Items from "../../components/Database/Item";
-
 const Database: React.FC = () => {
   const [currentComponent, setCurrentComponent] = useState<JSX.Element>()
   const [activeNavItem, setActiveNavItem] = useState("champions")
@@ -47,7 +45,7 @@ const Database: React.FC = () => {
         </div>
       </div>
     </div>
-    : <div className="loader"></div>
+    : <div className="cont-loader"><div className="loader"></div></div>
     }
     </>
   )

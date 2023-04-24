@@ -7,13 +7,14 @@ import NavBar from '../components/NavBar';
 import ChampionPage from './database/ChampionPage';
 import Database from './database/Database';
 import { useEffect } from 'react';
+import PatchnotesPage from './PatchnotesPage';
+import Footer from '../components/Footer';
 interface IChamp {
   image: {
     full: string
   }
 }
 function App() {
-
   useEffect(() => {
     fetch('https://ddragon.leagueoflegends.com/api/versions.json')
     .then(response => {
@@ -51,7 +52,10 @@ function App() {
         {/* Database Routes */}
         <Route path='/database/:version/' element={<Database/>}></Route>
         <Route path='/database/:version/champions/:champion' element={<ChampionPage/>}></Route>
+        {/* Patch Notes */}
+        <Route path='/patchnotes/:version/' element={<PatchnotesPage/>}></Route>
       </Routes>
+      <Footer/>
 
     </div>
   );

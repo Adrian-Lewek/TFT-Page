@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {FaSearch} from 'react-icons/fa'
-import '../style/HomePage.scss';
+import '../style/homepage.scss';
 import Select from 'react-select'
 import { useNavigate } from 'react-router-dom';
 import Leaderboard from '../components/Leadeboard';

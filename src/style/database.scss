@@ -2,12 +2,12 @@
 .database{
   width: 100%;
   display: flex;
-  padding: 100px 0;
+  padding: 100px 0 0;
   justify-content: center;
   &_container{
     width: 1100px;
     background-color: $firstColor;
-    min-height: 600px;
+    min-height: 900px;
     display: flex;
     padding: 10px 0;
     &_navbar{

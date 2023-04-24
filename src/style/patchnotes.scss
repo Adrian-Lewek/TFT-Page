@@ -1,0 +1,131 @@
+@import "variables";
+.patchnotes{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .banner{
+    height: 370px;
+  }
+  &_container{
+    margin: 220px 0 0;
+    background-color: $firstColor;
+    padding: 40px;
+    width: 100%;
+    max-width: 1100px;
+    gap: 30px;
+    &_header{
+      font-size: 1.3em;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .context{
+      font-size: 0.8em;
+      text-align: justify;
+      &::before {
+        content: '\201E';
+        font-size: 1.2em;
+        color: gray
+      }
+      
+      &::after {
+        content: '\201D'; 
+        font-size: 1.2em;
+        color: gray
+      }
+    }
+    div.context-designers{
+      margin-left: 40px;
+      color: $sixthColor;
+      font-size: 0.7em;
+      span{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img{
+          width: 30px;
+          border-radius: 50%;
+        }
+      }
+    }
+    hr, div.content-border{
+      border: 1px solid $secondColor;
+    }
+    div.content-border{
+      display: flex;
+      padding: 20px 30px;
+      &>div>div>span.content-border{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    h4{
+      margin-bottom: 0;
+      margin-left: 40px;
+      font-weight: 800;
+    }
+    li{
+      font-size: 0.8em;
+      margin-bottom: 4px;
+      margin-left: 20px;
+    }
+    div.gs-container{
+      display: flex;
+      margin-bottom: 10px;
+      justify-content: center;
+      gap: 20px;
+      img{
+        width: 450px;
+
+      }
+    }
+    header{
+      display: flex;
+      justify-content: center;
+      h2{
+        font-size: 2em;
+        font-weight: bold;
+      }
+    }
+    img{
+      max-width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .patchnotes_container{
+    padding: 20px;
+    h1{
+      font-size: 1.4em !important;
+    }
+    h2{
+      font-size: 1.4em !important;
+    }
+    div.gs-container{
+      img{
+        width: 100%;
+      }
+    }
+    span.content-border{
+      padding: 0 !important;
+      img{
+        width: 100% !important;
+        height: auto !important;
+        
+      }
+    }
+    blockquote, h4{
+      margin: 15px 0 !important;
+    }
+    div.context-designers{
+      margin: 0 !important;
+    }
+    ul{
+      padding: 0;
+    }
+    .content-border{
+      padding: 15px !important;
+    }
+  }
+}

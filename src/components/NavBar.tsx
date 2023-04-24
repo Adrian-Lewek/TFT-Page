@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../style/NavBar.scss'
+import '../style/navbar.scss'
 import {NavLink} from 'react-router-dom';
 import { animated, useTransition } from 'react-spring';
 import {GiHamburgerMenu} from 'react-icons/gi'
@@ -8,16 +8,15 @@ function NavBar (){
   const [activeNavMobile, setActiveNavMobile] = useState(false)
   const transition = useTransition(activeNavMobile, {
     from: {height: 0, opacity: 0, marginTop: 0},
-    enter: {height: 200, opacity: 1, marginTop: 10},
+    enter: {height: 150, opacity: 1, marginTop: 10},
     leave: {height: 0, opacity: 0, marginTop: 0}
   })
   const NavItems = () => {
     return(
     <>
     <NavLink to="/">Home</NavLink>
-    <NavLink to="/stats">Stats</NavLink>
     <NavLink to={"/database/" + version}>Database</NavLink>
-    <NavLink to="/patchNotes">Patch Notes</NavLink>
+    <NavLink to={"/patchNotes/" + version}>Patch Notes</NavLink>
     </>
     )
   }

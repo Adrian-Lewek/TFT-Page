@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { ILang_EN } from "../../interfaces";
 import fnv from "fnv-plus";
+import AugmentsList from "./AumentsList";
 
 interface Props {
   dataInfoAll: ILang_EN;
@@ -94,15 +95,7 @@ const Augments: React.FC<Props> = ({dataInfoAll}) => {
             return 0;
           }).map((augment, index) => {
             return (
-            <div key={index} className="augmentsContainer_augments_container">
-              <div className="augmentsContainer_augments_container_img">
-                <img src={augment.img} alt="" />
-              </div>
-              <div className="augmentsContainer_augments_container_right">
-                <div className="augmentsContainer_augments_container_title">{augment.name}</div>
-                <div className="augmentsContainer_augments_container_desc">{augment.desc}</div>
-              </div>
-            </div>
+              <AugmentsList img={augment.img} name={augment.name ?? ""} desc={augment.desc}/>
             )
           })} 
         </div>
